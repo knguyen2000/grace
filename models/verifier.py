@@ -1,4 +1,3 @@
-# models/verifier.py
 import torch
 from transformers import pipeline
 
@@ -26,15 +25,11 @@ class NliVerifier:
     def verify(self, evidence, answer):
         """
         Verifies if the evidence (premise) entails, contradicts, or
-        is neutral to the answer (hypothesis).
-
-        Returns: (label, score)
+        is neutral to the answer (hypothesis)
         """
         if not evidence or not answer:
             return "unknown", 0.0
 
-        # Format: (premise, hypothesis)
-        # Some models prefer a separator token
         result = self.pipe(f"{evidence} </s></s> {answer}")[0]
         
         label = self.label_map.get(result['label'], "unknown")

@@ -26,8 +26,7 @@ tqdm>=4.66.0  # Progress bars
 word2number>=1.1  # For number word normalization (five -> 5)
 python-dateutil>=2.8.0  # For date parsing and normalization
 
-# Optional: For improved graph construction (prepare_hotpot_improved.py)
-# spacy>=3.7.0  # Uncomment for better entity recognition
+# spacy>=3.7.0
 # python -m spacy download en_core_web_sm  # Run after installing spacy
 
 # Dataset handling (e.g., HotpotQA)

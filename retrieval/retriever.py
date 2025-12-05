@@ -1,34 +1,30 @@
-# retrieval/retriever.py
 import networkx as nx
+from config import MAX_HOPS_LIMIT, STOP_THRESHOLD_SHALLOW, STOP_THRESHOLD_DEEP
 
 def retrieve_paths(G, start_entity, action, max_width=15):
-    """
-    Retrieves paths using BFS based on a mediator-recommended action.
-    
-    action: 'retrieve_shallow' (hops=1) or 'retrieve_deep' (hops=2)
-    """
-    
-    # 1. Determine parameters from the action
+
+    # Determine parameters from the action
     if action == 'retrieve_shallow':
-        hops = 1
+        stop_threshold = STOP_THRESHOLD_SHALLOW
     elif action == 'retrieve_deep':
-        hops = 2
+        stop_threshold = STOP_THRESHOLD_DEEP
     else:
         # Fallback for unknown action
-        hops = 1
+        stop_threshold = 0.5
 
     paths = []
     # Frontier stores tuples: (current_node, current_path_list)
     frontier = [(start_entity, [start_entity])]
 
-    for current_hop in range(hops):
+    # Run up to MAX_HOPS_LIMIT, but check for early stopping
+    for current_hop in range(MAX_HOPS_LIMIT):
         next_frontier = []
         processed_in_level = set() # Avoid cycles within the same hop level expansion
 
         for node, path in frontier:
             
             # Safely get neighbors using bidirectional traversal
-            # We combine successors and predecessors because the graph is sparse
+            # Combine successors and predecessors because the graph is sparse
             neighbors = []
             if node in G:
                 try:
@@ -39,12 +35,9 @@ def retrieve_paths(G, start_entity, action, max_width=15):
                 except Exception:
                     neighbors = []
             
-            # --- Adaptive Width Logic ---
             node_degree = len(neighbors)
             current_width = min(max_width, node_degree)
-            # --------------------------
 
-            # Sort neighbors for determinism (heuristic: edge weight if available)
             try:
                 sorted_neighbors = sorted(
                     neighbors, 
@@ -67,8 +60,25 @@ def retrieve_paths(G, start_entity, action, max_width=15):
                 next_frontier.append((neighbor, new_path))
                 processed_in_level.add((current_hop, neighbor))
 
-        if not next_frontier: # Stop if we can't expand further
+        if not next_frontier:
             break
+        
+        # EARLY STOPPING CHECK
+        # Calculate scores for all current paths
+        # If we find a good enough path, we stop to save time
+        best_path_in_batch = select_best_path(G, paths)
+        if best_path_in_batch:
+            # Re-calculate score to check against threshold (select_best_path returns the path, not score)
+            try:
+                avg_rel = sum(G.nodes[n]['reliability'] for n in best_path_in_batch) / len(best_path_in_batch)
+                path_score = avg_rel + (len(best_path_in_batch) * 0.1)
+                
+                if path_score >= stop_threshold:
+                    # Found a good path! Stop expansion.
+                    break
+            except KeyError:
+                pass
+        
         frontier = next_frontier
 
     return paths
@@ -89,9 +99,9 @@ def select_best_path(G, paths):
         try:
             # Calculate average reliability of nodes in the path
             avg_reliability = sum(G.nodes[n]['reliability'] for n in path) / len(path)
-            # Simple score: reliability minus a penalty for length
-            # This prefers high-reliability, short paths
-            score = avg_reliability - (len(path) * 0.05) 
+            # Simple score: reliability PLUS a bonus for length to encourage multi-hop
+            # This prefers high-reliability, DEEPER paths
+            score = avg_reliability + (len(path) * 0.1) 
             
             if score > best_score:
                 best_score = score

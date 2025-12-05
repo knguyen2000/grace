@@ -1,5 +1,3 @@
-# eval/evaluation.py
-
 def evaluate_batch(results, mode="graph"):
     action_key = f"{mode}_action"
     correct_key = f"{mode}_correct"

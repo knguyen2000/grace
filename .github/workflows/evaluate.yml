@@ -8,7 +8,7 @@ on:
 jobs:
   evaluate:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 120
 
     steps:
       - name: Checkout code
@@ -29,17 +29,31 @@ jobs:
         run: |
           python -c "import nltk; nltk.download('punkt'); nltk.download('averaged_perceptron_tagger'); nltk.download('stopwords')"
 
-      - name: Check if data files exist
+      - name: Cache Graph Data
+        id: cache-graph
+        uses: actions/cache@v3
+        with:
+          path: |
+            data/nodes.csv
+            data/edges.csv
+          key: graph-v1-${{ hashFiles('data/prepare_hotpot_improved.py') }}
+
+      - name: Generate Graph (if not cached)
+        if: steps.cache-graph.outputs.cache-hit != 'true'
+        run: |
+          python data/prepare_hotpot_improved.py
+
+      - name: Verify Data Files
         run: |
           if [ ! -f "data/nodes.csv" ] || [ ! -f "data/edges.csv" ]; then
-            echo "Error: Data files not found. Run data preparation first."
+            echo "Error: Data files missing after generation/cache restore."
             exit 1
           fi
 
-      - name: Run GRACE Evaluation (Small)
+      - name: Run GRACE Evaluation
         run: |
           python eval/run_evaluation.py --calib_size 20 --eval_size 20 --force-calib
-        continue-on-error: true # Don't fail CI if evaluation has errors
+        continue-on-error: true
 
       - name: Print Results
         if: always()
@@ -52,7 +66,7 @@ jobs:
 
       - name: Upload Evaluation Results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: evaluation-results
           path: |
@@ -63,7 +77,7 @@ jobs:
 
       - name: Upload Examples
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: examples
           path: examples.md

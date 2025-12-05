@@ -46,28 +46,13 @@ def _best_from_candidates(query_norm, candidates_norm):
     return None, None
 
 def pick_start_node_from_question(G, question, k=5, debug=False):
-    """
-    Robust entity linking:
-    1) If the question EXACTLY matches a question-node (normalized equality), use it.
-    2) Otherwise, match against PAGE TITLES only.
-       - Filter candidates by token overlap first (important tokens).
-       - Then apply fuzzy match with a higher cutoff.
-    """
     q_norm = TextNormalizer.normalize_text(question)
 
-    # === Pass 0: exact match to a question-node (only if identical after normalization)
-    q_nodes = [n for n, d in G.nodes(data=True) if d.get("type") == "Question"]
-    q_nodes_norm = set(TextNormalizer.normalize_list(q_nodes))
-    if q_norm in q_nodes_norm:
-        if debug: print(f"[EntityLink] Exact question-node match: {q_norm}")
-        # Return the original ID (already normalized in graph)
-        return q_norm
-
-    # === Build page-label index
+    # Build page-label index
     label_to_id = _build_label_index(G)
     labels_norm = list(label_to_id.keys())
 
-    # === Token-overlap filter (shrink search space)
+    # Token-overlap filter (shrink search space)
     tokens = set(_important_tokens(q_norm))
     if tokens:
         scored = []
@@ -76,7 +61,7 @@ def pick_start_node_from_question(G, question, k=5, debug=False):
             overlap = len(tokens & lab_tokens)
             if overlap > 0:
                 scored.append((overlap, lab))
-        # take top-K by overlap (wider if few candidates)
+        # Take top-K by overlap (wider if few candidates)
         scored.sort(reverse=True, key=lambda x: x[0])
         cand_pool = [lab for _, lab in scored[:max(50, 5*len(tokens))]] or labels_norm
     else:

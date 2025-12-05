@@ -1,0 +1,701 @@
+[
+  {
+    "id": "20",
+    "question": "Which other Mexican Formula One race car driver has held the podium besides the Force India driver born in 1990?",
+    "gold": "Pedro Rodríguez",
+    "baseline_pred": "antonio saad",
+    "signal_bin": "T:low_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "generate_consistency",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 6.0,
+    "evidence": "Aamer Iqbal (cricketer, born 1990) --[CONTAINS]--> Hafiz Aamer Iqbal (born 21 December 1990 in Lahore) is a Pakistani cricketer, who played twice for Lahore Eagles in List A cricket. | Hafiz Aamer Iqbal (born 21 December 1990 in Lahore) is a Pakistani cricketer, who played twice for Lahore Eagles in List A cricket. --[related_to (edge missing?)]--> What is the capacity of the stadium that is the home ground of the Lahore Eagles? | What is the capacity of the stadium that is the home ground of the Lahore Eagles? --[CANDIDATE_CHUNK]-->  In the match, played at the Multan Cricket Stadium in March 2013, Imran took the wicket of the Eagles' captain, Adnan Akmal, in Lahore's innings, finishing with 1/28 from his nine overs, including two maidens. |  In the match, played at the Multan Cricket Stadium in March 2013, Imran took the wicket of the Eagles' captain, Adnan Akmal, in Lahore's innings, finishing with 1/28 from his nine overs, including two maidens. --[related_to (edge missing?)]--> What country do both Adnan Akmal and Kamran Akmal represent in cricket? NODES: Aamer Iqbal (cricketer, born 1990) ; Hafiz Aamer Iqbal (born 21 December 1990 in Lahore) is a Pakistani cricketer, who played twice for Lahore Eagles in List A cricket. ; What is the capacity of the stadium that is the home ground of the Lahore Eagles? ;  In the match, played at the Multan Cricket Stadium in March 2013, Imran took the wicket of the Eagles' captain, Adnan Akmal, in Lahore's innings, finishing with 1/28 from his nine overs, including two maidens. ; What country do both Adnan Akmal and Kamran Akmal represent in cricket?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 1
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:generate_consistency, V:skip_check]",
+      "Signal bin: T:low_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=1",
+      "Decision: Abstained after pipeline produced no safe answer.",
+      "EVIDENCE_USED: Aamer Iqbal (cricketer, born 1990) --[CONTAINS]--> Hafiz Aamer Iqbal (born 21 December 1990 in Lahore) is a Pakistani cricketer, who played twice for Lahore Eagles in List A cricket. | Hafiz Aamer Iqb..."
+    ],
+    "net_utility": 4.0
+  },
+  {
+    "id": "21",
+    "question": "This singer of A Rather Blustery Day also voiced what hedgehog?",
+    "gold": "Sonic",
+    "baseline_pred": "sam scott",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "generate_consistency",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 6.0,
+    "evidence": "A Rather Blustery Day --[CONTAINS]--> \"A Rather Blustery Day\" is a whimsical song from the Walt Disney musical film featurette, \"Winnie the Pooh and the Blustery Day\". | \"A Rather Blustery Day\" is a whimsical song from the Walt Disney musical film featurette, \"Winnie the Pooh and the Blustery Day\". --[related_to (edge missing?)]--> This singer of A Rather Blustery Day also voiced what hedgehog? | This singer of A Rather Blustery Day also voiced what hedgehog? --[CANDIDATE_CHUNK]-->  In 2010, she voiced Miles \"Tails\" Prower in the video game series \"Sonic the Hedgehog\". |  In 2010, she voiced Miles \"Tails\" Prower in the video game series \"Sonic the Hedgehog\". --[related_to (edge missing?)]--> What video game character did the voice actress in the animated film Alpha and Omega voice? NODES: A Rather Blustery Day ; \"A Rather Blustery Day\" is a whimsical song from the Walt Disney musical film featurette, \"Winnie the Pooh and the Blustery Day\". ; This singer of A Rather Blustery Day also voiced what hedgehog? ;  In 2010, she voiced Miles \"Tails\" Prower in the video game series \"Sonic the Hedgehog\". ; What video game character did the voice actress in the animated film Alpha and Omega voice?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:generate_consistency, V:skip_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=2",
+      "Decision: Abstained after pipeline produced no safe answer.",
+      "EVIDENCE_USED: A Rather Blustery Day --[CONTAINS]--> \"A Rather Blustery Day\" is a whimsical song from the Walt Disney musical film featurette, \"Winnie the Pooh and the Blustery Day\". | \"A Rather Blustery Day\" is a w..."
+    ],
+    "net_utility": 4.0
+  },
+  {
+    "id": "22",
+    "question": "Aside from the Apple Remote, what other device can control the program Apple Remote was originally designed to interact with?",
+    "gold": "keyboard function keys",
+    "baseline_pred": "a computer",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "Apple Remote Desktop --[CONTAINS]--> Apple Remote Desktop (ARD) is a Macintosh application produced by Apple Inc., first released on March 14, 2002, that replaced a similar product called \"Apple Network Assistant\". | Apple Remote Desktop (ARD) is a Macintosh application produced by Apple Inc., first released on March 14, 2002, that replaced a similar product called \"Apple Network Assistant\". --[related_to (edge missing?)]--> Aside from the Apple Remote, what other device can control the program Apple Remote was originally designed to interact with? | Aside from the Apple Remote, what other device can control the program Apple Remote was originally designed to interact with? --[CANDIDATE_CHUNK]-->  Prior to the Apple Remote, Apple produced several nameless IR remotes for products such as the Macintosh TV, TV tuner expansion boards, and the PowerCD drive. |  Prior to the Apple Remote, Apple produced several nameless IR remotes for products such as the Macintosh TV, TV tuner expansion boards, and the PowerCD drive. --[related_to (edge missing?)]-->  The first three generations of Apple TV used the Apple Remote as their primary control mechanism. NODES: Apple Remote Desktop ; Apple Remote Desktop (ARD) is a Macintosh application produced by Apple Inc., first released on March 14, 2002, that replaced a similar product called \"Apple Network Assistant\". ; Aside from the Apple Remote, what other device can control the program Apple Remote was originally designed to interact with? ;  Prior to the Apple Remote, Apple produced several nameless IR remotes for products such as the Macintosh TV, TV tuner expansion boards, and the PowerCD drive. ;  The first three generations of Apple TV used the Apple Remote as their primary control mechanism.",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=2",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate).",
+      "EVIDENCE_USED: Apple Remote Desktop --[CONTAINS]--> Apple Remote Desktop (ARD) is a Macintosh application produced by Apple Inc., first released on March 14, 2002, that replaced a similar product called \"Apple Netwo..."
+    ],
+    "net_utility": 9.0
+  },
+  {
+    "id": "23",
+    "question": "Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice?",
+    "gold": "Badly Drawn Boy",
+    "baseline_pred": "Badly Drawn Boy",
+    "signal_bin": "T:low_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "generate_consistency",
+      "skip_check"
+    ],
+    "final_answer": "Badly Drawn Boy",
+    "final_cost": 6.0,
+    "evidence": "Badly Drawn Boy --[CONTAINS]--> Damon Michael Gough (born 2 October 1969, in Dunstable, Bedfordshire), known by the stage name Badly Drawn Boy, is an English indie singer-songwriter and multi-instrumentalist. | Damon Michael Gough (born 2 October 1969, in Dunstable, Bedfordshire), known by the stage name Badly Drawn Boy, is an English indie singer-songwriter and multi-instrumentalist. --[related_to (edge missing?)]--> Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice? | Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice? --[CANDIDATE_CHUNK]-->  Due to the mild UK chart success of the 1999 single \"Once Around the Block\", XL Recordings signed up Badly Drawn Boy to release the debut album \"The Hour of Bewilderbeast\" in 2000. |  Due to the mild UK chart success of the 1999 single \"Once Around the Block\", XL Recordings signed up Badly Drawn Boy to release the debut album \"The Hour of Bewilderbeast\" in 2000. --[NEXT]-->  The album caught the attention of author Nick Hornby who then asked Gough to score the film being made for his book \"About a Boy\". NODES: Badly Drawn Boy ; Damon Michael Gough (born 2 October 1969, in Dunstable, Bedfordshire), known by the stage name Badly Drawn Boy, is an English indie singer-songwriter and multi-instrumentalist. ; Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice? ;  Due to the mild UK chart success of the 1999 single \"Once Around the Block\", XL Recordings signed up Badly Drawn Boy to release the debut album \"The Hour of Bewilderbeast\" in 2000. ;  The album caught the attention of author Nick Hornby who then asked Gough to score the film being made for his book \"About a Boy\".",
+    "system_abstained": false,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 1
+    },
+    "baseline_correct": true,
+    "graph_action": "answer",
+    "graph_correct": true,
+    "abstain_correct": null,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:generate_consistency, V:skip_check]",
+      "Signal bin: T:low_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=1",
+      "Decision: Answered with sufficient structural confidence.",
+      "EVIDENCE_USED: Badly Drawn Boy --[CONTAINS]--> Damon Michael Gough (born 2 October 1969, in Dunstable, Bedfordshire), known by the stage name Badly Drawn Boy, is an English indie singer-songwriter and multi-instrume..."
+    ],
+    "net_utility": 114.0
+  },
+  {
+    "id": "24",
+    "question": "What was the father of Kasper Schmeichel voted to be by the IFFHS in 1992?",
+    "gold": "World's Best Goalkeeper",
+    "baseline_pred": "christopher schumacher",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "Kasper Schmeichel --[CONTAINS]-->  He is the son of former Manchester United and Danish international goalkeeper Peter Schmeichel. |  He is the son of former Manchester United and Danish international goalkeeper Peter Schmeichel. --[related_to (edge missing?)]--> Kasper Peter Schmeichel is the son of a professional footballer who was voted what in 1992 and 1993? | Kasper Peter Schmeichel is the son of a professional footballer who was voted what in 1992 and 1993? --[CANDIDATE_CHUNK]-->  He is best remembered for his most successful years at English club Manchester United, whom he captained to the 1999 UEFA Champions League to complete the Treble, and for winning UEFA Euro 1992 with Denmark. |  He is best remembered for his most successful years at English club Manchester United, whom he captained to the 1999 UEFA Champions League to complete the Treble, and for winning UEFA Euro 1992 with Denmark. --[related_to (edge missing?)]--> What was the father of Kasper Schmeichel voted to be by the IFFHS in 1992? NODES: Kasper Schmeichel ;  He is the son of former Manchester United and Danish international goalkeeper Peter Schmeichel. ; Kasper Peter Schmeichel is the son of a professional footballer who was voted what in 1992 and 1993? ;  He is best remembered for his most successful years at English club Manchester United, whom he captained to the 1999 UEFA Champions League to complete the Treble, and for winning UEFA Euro 1992 with Denmark. ; What was the father of Kasper Schmeichel voted to be by the IFFHS in 1992?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=2",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate).",
+      "EVIDENCE_USED: Kasper Schmeichel --[CONTAINS]-->  He is the son of former Manchester United and Danish international goalkeeper Peter Schmeichel. |  He is the son of former Manchester United and Danish international..."
+    ],
+    "net_utility": 9.0
+  },
+  {
+    "id": "25",
+    "question": "Who was the writer of These Boots Are Made for Walkin' and who died in 2007?",
+    "gold": "Barton Lee Hazlewood",
+    "baseline_pred": "john dylan",
+    "signal_bin": "T:low_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "generate_consistency",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: Lee Hazlewood (born June 17, 1967) is an American singer and songwriter.",
+    "final_cost": 6.0,
+    "evidence": "These Boots Are Made for Walkin' --[CONTAINS]--> \"These Boots Are Made for Walkin' is a hit song written by Lee Hazlewood and recorded by Nancy Sinatra. | \"These Boots Are Made for Walkin' is a hit song written by Lee Hazlewood and recorded by Nancy Sinatra. --[related_to (edge missing?)]--> Who was the writer of These Boots Are Made for Walkin' and who died in 2007? | Who was the writer of These Boots Are Made for Walkin' and who died in 2007? --[CANDIDATE_CHUNK]-->  The album is titled after the song on the album \"These Boots Are Made for Walkin'\", which became a #1 hit for Sinatra. |  The album is titled after the song on the album \"These Boots Are Made for Walkin'\", which became a #1 hit for Sinatra. --[NEXT]-->  Most of the other songs on the album are covers of then-recent hits. NODES: These Boots Are Made for Walkin' ; \"These Boots Are Made for Walkin' is a hit song written by Lee Hazlewood and recorded by Nancy Sinatra. ; Who was the writer of These Boots Are Made for Walkin' and who died in 2007? ;  The album is titled after the song on the album \"These Boots Are Made for Walkin'\", which became a #1 hit for Sinatra. ;  Most of the other songs on the album are covers of then-recent hits.",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 1
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:generate_consistency, V:skip_check]",
+      "Signal bin: T:low_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=1",
+      "Decision: Abstained after pipeline produced no safe answer.",
+      "EVIDENCE_USED: These Boots Are Made for Walkin' --[CONTAINS]--> \"These Boots Are Made for Walkin' is a hit song written by Lee Hazlewood and recorded by Nancy Sinatra. | \"These Boots Are Made for Walkin' is a hit so..."
+    ],
+    "net_utility": 4.0
+  },
+  {
+    "id": "26",
+    "question": "The 2011–12 VCU Rams men's basketball team, led by third year head coach Shaka Smart, represented Virginia Commonwealth University which was founded in what year?",
+    "gold": "1838",
+    "baseline_pred": "1892",
+    "signal_bin": "T:high_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "generate",
+      "skip_check"
+    ],
+    "final_answer": "2011",
+    "final_cost": 3.0,
+    "evidence": "2011–12 VCU Rams men's basketball team --[CONTAINS]--> The 2011–12 VCU Rams men's basketball team represented Virginia Commonwealth University during the 2011–12 NCAA Division I men's basketball season. | The 2011–12 VCU Rams men's basketball team represented Virginia Commonwealth University during the 2011–12 NCAA Division I men's basketball season. --[related_to (edge missing?)]--> The 2011–12 VCU Rams men's basketball team, led by third year head coach Shaka Smart, represented Virginia Commonwealth University which was founded in what year? | The 2011–12 VCU Rams men's basketball team, led by third year head coach Shaka Smart, represented Virginia Commonwealth University which was founded in what year? --[CANDIDATE_CHUNK]-->  This was the highest ranking in VCU's history and the highest ranking of any team from the CAA. |  This was the highest ranking in VCU's history and the highest ranking of any team from the CAA. --[NEXT]-->  The 2011 NCAA tournament run by VCU is regarded as one of the best Cinderella runs of all time. NODES: 2011–12 VCU Rams men's basketball team ; The 2011–12 VCU Rams men's basketball team represented Virginia Commonwealth University during the 2011–12 NCAA Division I men's basketball season. ; The 2011–12 VCU Rams men's basketball team, led by third year head coach Shaka Smart, represented Virginia Commonwealth University which was founded in what year? ;  This was the highest ranking in VCU's history and the highest ranking of any team from the CAA. ;  The 2011 NCAA tournament run by VCU is regarded as one of the best Cinderella runs of all time.",
+    "system_abstained": false,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 3
+    },
+    "baseline_correct": false,
+    "graph_action": "answer",
+    "graph_correct": false,
+    "abstain_correct": null,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:generate, V:skip_check]",
+      "Signal bin: T:high_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=3",
+      "Decision: Answered with sufficient structural confidence.",
+      "EVIDENCE_USED: 2011–12 VCU Rams men's basketball team --[CONTAINS]--> The 2011–12 VCU Rams men's basketball team represented Virginia Commonwealth University during the 2011–12 NCAA Division I men's basketball seaso..."
+    ],
+    "net_utility": -43.0
+  },
+  {
+    "id": "27",
+    "question": "Are both Dictyosperma, and Huernia described as a genus?",
+    "gold": "yes",
+    "baseline_pred": "yes",
+    "signal_bin": "T:high_Q:low",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "Dictyosperma --[CONTAINS]-->  The genus is named from two Greek words meaning \"net\" and \"seed\" and the epithet is Latin for \"white\", the common color of the crownshaft at the top of the trunk. |  The genus is named from two Greek words meaning \"net\" and \"seed\" and the epithet is Latin for \"white\", the common color of the crownshaft at the top of the trunk. --[related_to (edge missing?)]-->  It is closely related to, and resembles, palms in the \"Archontophoenix\" genus. |  It is closely related to, and resembles, palms in the \"Archontophoenix\" genus. --[related_to (edge missing?)]--> Are both Dictyosperma, and Huernia described as a genus? NODES: Dictyosperma ;  The genus is named from two Greek words meaning \"net\" and \"seed\" and the epithet is Latin for \"white\", the common color of the crownshaft at the top of the trunk. ;  It is closely related to, and resembles, palms in the \"Archontophoenix\" genus. ; Are both Dictyosperma, and Huernia described as a genus?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 3,
+      "coherence": 0.5,
+      "diversity": 4,
+      "reliability": 0.0,
+      "degree": 5
+    },
+    "baseline_correct": true,
+    "abstain_correct": false,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:high_Q:low",
+      "Evidence metrics: path_len=3, coherence=0.50, diversity=4, reliability=0.00, degree=5",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate).",
+      "EVIDENCE_USED: Dictyosperma --[CONTAINS]-->  The genus is named from two Greek words meaning \"net\" and \"seed\" and the epithet is Latin for \"white\", the common color of the crownshaft at the top of the trunk. |  The ..."
+    ],
+    "net_utility": -21.0
+  },
+  {
+    "id": "28",
+    "question": "Kaiser Ventures corporation was founded by an American industrialist who became known as the father of modern American shipbuilding?",
+    "gold": "Henry J. Kaiser",
+    "baseline_pred": "john d. harris",
+    "signal_bin": "T:low_Q:low",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 0,
+      "coherence": 0.0,
+      "diversity": 0,
+      "reliability": 0.0,
+      "degree": 0
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:low_Q:low",
+      "Evidence metrics: path_len=0, coherence=0.00, diversity=0, reliability=0.00, degree=0",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate)."
+    ],
+    "net_utility": 9.0
+  },
+  {
+    "id": "29",
+    "question": "What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre?",
+    "gold": "Arena of Khazan",
+    "baseline_pred": "trolls",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_deep",
+      "generate",
+      "skip_check"
+    ],
+    "final_answer": "Tunnels & Trolls",
+    "final_cost": 5.0,
+    "evidence": "Tunnels &amp; Trolls --[CONTAINS]-->  The second modern role-playing game published, it was written by Ken St. Andre to be a more accessible alternative to \"Dungeons & Dragons\" and is suitable for solitaire, group, and play-by-mail gameplay. |  The second modern role-playing game published, it was written by Ken St. Andre to be a more accessible alternative to \"Dungeons & Dragons\" and is suitable for solitaire, group, and play-by-mail gameplay. --[related_to (edge missing?)]--> Tunnels & Trolls (abbreviated \"T&T\") is a fantasy role-playing game designed by Ken St. Andre and first published in 1975 by Flying Buffalo. | Tunnels & Trolls (abbreviated \"T&T\") is a fantasy role-playing game designed by Ken St. Andre and first published in 1975 by Flying Buffalo. --[related_to (edge missing?)]--> What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre? | What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre? --[CANDIDATE_CHUNK]-->  A few adventure modules were also released for \"MSPE\". |  A few adventure modules were also released for \"MSPE\". --[NEXT]-->  The ruleset of 1987 video game \"Wasteland\", on which Michael A. Stackpole worked, is based on \"MSPE\"; as the upcoming 2013 sequel \"Wasteland 2\" will use similar mechanics, so it too can be seen as based on MSPE. |  The ruleset of 1987 video game \"Wasteland\", on which Michael A. Stackpole worked, is based on \"MSPE\"; as the upcoming 2013 sequel \"Wasteland 2\" will use similar mechanics, so it too can be seen as based on MSPE. --[related_to (edge missing?)]--> Mercenaries, Spies and Private Eyes NODES: Tunnels &amp; Trolls ;  The second modern role-playing game published, it was written by Ken St. Andre to be a more accessible alternative to \"Dungeons & Dragons\" and is suitable for solitaire, group, and play-by-mail gameplay. ; Tunnels & Trolls (abbreviated \"T&T\") is a fantasy role-playing game designed by Ken St. Andre and first published in 1975 by Flying Buffalo. ; What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre? ;  A few adventure modules were also released for \"MSPE\". ;  The ruleset of 1987 video game \"Wasteland\", on which Michael A. Stackpole worked, is based on \"MSPE\"; as the upcoming 2013 sequel \"Wasteland 2\" will use similar mechanics, so it too can be seen as based on MSPE. ; Mercenaries, Spies and Private Eyes",
+    "system_abstained": false,
+    "evidence_metrics": {
+      "path_len": 6,
+      "coherence": 0.2,
+      "diversity": 7,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": false,
+    "graph_action": "answer",
+    "graph_correct": false,
+    "abstain_correct": null,
+    "graph_justification": [
+      "Policy: [R:retrieve_deep, G:generate, V:skip_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=6, coherence=0.20, diversity=7, reliability=0.00, degree=2",
+      "Decision: Answered with sufficient structural confidence.",
+      "EVIDENCE_USED: Tunnels &amp; Trolls --[CONTAINS]-->  The second modern role-playing game published, it was written by Ken St. Andre to be a more accessible alternative to \"Dungeons & Dragons\" and is suitable for sol..."
+    ],
+    "net_utility": -45.0
+  },
+  {
+    "id": "30",
+    "question": "When was Poison's album \"Shut Up, Make Love\" released?",
+    "gold": "2000",
+    "baseline_pred": "September 11, 2007",
+    "signal_bin": "T:high_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "Shut Up, Make Love --[CONTAINS]--> \" album. | \" album. --[NEXT]-->  \"Crack a Smile\" is Poison's fifth studio album, released on March 14, 2000, and charting at #131 on The Billboard 200. |  \"Crack a Smile\" is Poison's fifth studio album, released on March 14, 2000, and charting at #131 on The Billboard 200. --[related_to (edge missing?)]--> What production company was co-created by the lead singer of the band Poison? | What production company was co-created by the lead singer of the band Poison? --[CANDIDATE_CHUNK]-->  The song fuses elements of country rock and gospel music; the album version includes the Los Angeles First A.M.E. Church choir on backing vocals. NODES: Shut Up, Make Love ; \" album. ;  \"Crack a Smile\" is Poison's fifth studio album, released on March 14, 2000, and charting at #131 on The Billboard 200. ; What production company was co-created by the lead singer of the band Poison? ;  The song fuses elements of country rock and gospel music; the album version includes the Los Angeles First A.M.E. Church choir on backing vocals.",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 4
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:high_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=4",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate).",
+      "EVIDENCE_USED: Shut Up, Make Love --[CONTAINS]--> \" album. | \" album. --[NEXT]-->  \"Crack a Smile\" is Poison's fifth studio album, released on March 14, 2000, and charting at #131 on The Billboard 200. |  \"Crack a S..."
+    ],
+    "net_utility": 9.0
+  },
+  {
+    "id": "31",
+    "question": "Hayden is a singer-songwriter from Canada, but where does Buck-Tick hail from?",
+    "gold": "Fujioka, Gunma",
+    "baseline_pred": "san francisco",
+    "signal_bin": "T:high_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "2001 Canada Masters – Doubles --[CONTAINS]-->  Sébastien Lareau and Daniel Nestor were the defending champions but they competed with different partners that year, Lareau with Justin Gimelstob and Nestor with Sandon Stolle. |  Sébastien Lareau and Daniel Nestor were the defending champions but they competed with different partners that year, Lareau with Justin Gimelstob and Nestor with Sandon Stolle. --[NEXT]-->  Gimelstob and Lareau lost in the first round to Mark Knowles and Brian MacPhie, as did Nestor and Stolle to Jan-Michael Gambill and Simon Larose. |  Gimelstob and Lareau lost in the first round to Mark Knowles and Brian MacPhie, as did Nestor and Stolle to Jan-Michael Gambill and Simon Larose. --[NEXT]-->  Jiří Novák and David Rikl won in the final 6–4, 3–6, 6–3 against Donald Johnson and Jared Palmer. |  Jiří Novák and David Rikl won in the final 6–4, 3–6, 6–3 against Donald Johnson and Jared Palmer. --[related_to (edge missing?)]--> What sport is played by both Justin Gimelstob and Angelique Kerber? NODES: 2001 Canada Masters – Doubles ;  Sébastien Lareau and Daniel Nestor were the defending champions but they competed with different partners that year, Lareau with Justin Gimelstob and Nestor with Sandon Stolle. ;  Gimelstob and Lareau lost in the first round to Mark Knowles and Brian MacPhie, as did Nestor and Stolle to Jan-Michael Gambill and Simon Larose. ;  Jiří Novák and David Rikl won in the final 6–4, 3–6, 6–3 against Donald Johnson and Jared Palmer. ; What sport is played by both Justin Gimelstob and Angelique Kerber?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.3333333333333333,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 4
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:high_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.33, diversity=5, reliability=0.00, degree=4",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate).",
+      "EVIDENCE_USED: 2001 Canada Masters – Doubles --[CONTAINS]-->  Sébastien Lareau and Daniel Nestor were the defending champions but they competed with different partners that year, Lareau with Justin Gimelstob and Nes..."
+    ],
+    "net_utility": 9.0
+  },
+  {
+    "id": "32",
+    "question": "Which  French ace pilot and adventurer fly L'Oiseau Blanc",
+    "gold": "Charles Eugène",
+    "baseline_pred": "charles d'assain",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 3.0,
+    "evidence": "L'Oiseau Blanc --[CONTAINS]--> L'Oiseau Blanc (commonly known in the English-speaking world as The White Bird ) was a French Levasseur PL.8 biplane that disappeared in 1927, during an attempt to make the first non-stop transatlantic flight between Paris and New York City to compete for the Orteig Prize. | L'Oiseau Blanc (commonly known in the English-speaking world as The White Bird ) was a French Levasseur PL.8 biplane that disappeared in 1927, during an attempt to make the first non-stop transatlantic flight between Paris and New York City to compete for the Orteig Prize. --[NEXT]-->  The aircraft was flown by French World War I aviation heroes, Charles Nungesser and François Coli. |  The aircraft was flown by French World War I aviation heroes, Charles Nungesser and François Coli. --[related_to (edge missing?)]--> Which  French ace pilot and adventurer fly L'Oiseau Blanc | Which  French ace pilot and adventurer fly L'Oiseau Blanc --[CANDIDATE_CHUNK]-->  \"L'Oiseau bleu\", acquired by the City of Paris in 1937, forms part of the permanent collection at the Musée d'Art Moderne de la Ville de Paris. NODES: L'Oiseau Blanc ; L'Oiseau Blanc (commonly known in the English-speaking world as The White Bird ) was a French Levasseur PL.8 biplane that disappeared in 1927, during an attempt to make the first non-stop transatlantic flight between Paris and New York City to compete for the Orteig Prize. ;  The aircraft was flown by French World War I aviation heroes, Charles Nungesser and François Coli. ; Which  French ace pilot and adventurer fly L'Oiseau Blanc ;  \"L'Oiseau bleu\", acquired by the City of Paris in 1937, forms part of the permanent collection at the Musée d'Art Moderne de la Ville de Paris.",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:generate, V:skip_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=2",
+      "Decision: Abstained after pipeline produced no safe answer.",
+      "EVIDENCE_USED: L'Oiseau Blanc --[CONTAINS]--> L'Oiseau Blanc (commonly known in the English-speaking world as The White Bird ) was a French Levasseur PL.8 biplane that disappeared in 1927, during an attempt to make ..."
+    ],
+    "net_utility": 7.0
+  },
+  {
+    "id": "33",
+    "question": "Are Freakonomics and In the Realm of the Hackers both American documentaries?",
+    "gold": "no",
+    "baseline_pred": "no",
+    "signal_bin": "T:high_Q:mid",
+    "joint_action": [
+      "retrieve_deep",
+      "generate_consistency",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 8.0,
+    "evidence": "In the Realm of the Hackers --[CONTAINS]-->  The storyline is centered on the Australian teenagers going by the hacker names \"Electron\" and \"Phoenix\", who were members of an elite computer hacking group called 'The Realm' and hacked into some of the most secure computer networks in the world, including those of the US Naval Research Laboratory, Lawrence Livermore National Laboratory, a government lab charged with the security of the US nuclear stockpile, and NASA. |  The storyline is centered on the Australian teenagers going by the hacker names \"Electron\" and \"Phoenix\", who were members of an elite computer hacking group called 'The Realm' and hacked into some of the most secure computer networks in the world, including those of the US Naval Research Laboratory, Lawrence Livermore National Laboratory, a government lab charged with the security of the US nuclear stockpile, and NASA. --[related_to (edge missing?)]--> Are Freakonomics and In the Realm of the Hackers both American documentaries? | Are Freakonomics and In the Realm of the Hackers both American documentaries? --[CANDIDATE_CHUNK]-->  The film follows a group of high school hackers and their involvement in a corporate extortion conspiracy. |  The film follows a group of high school hackers and their involvement in a corporate extortion conspiracy. --[related_to (edge missing?)]--> The director of American crime film, Secret of the Chateau, was known to work at which company? NODES: In the Realm of the Hackers ;  The storyline is centered on the Australian teenagers going by the hacker names \"Electron\" and \"Phoenix\", who were members of an elite computer hacking group called 'The Realm' and hacked into some of the most secure computer networks in the world, including those of the US Naval Research Laboratory, Lawrence Livermore National Laboratory, a government lab charged with the security of the US nuclear stockpile, and NASA. ; Are Freakonomics and In the Realm of the Hackers both American documentaries? ;  The film follows a group of high school hackers and their involvement in a corporate extortion conspiracy. ; The director of American crime film, Secret of the Chateau, was known to work at which company?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 3
+    },
+    "baseline_correct": true,
+    "abstain_correct": false,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_deep, G:generate_consistency, V:skip_check]",
+      "Signal bin: T:high_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=3",
+      "Decision: Abstained after pipeline produced no safe answer.",
+      "EVIDENCE_USED: In the Realm of the Hackers --[CONTAINS]-->  The storyline is centered on the Australian teenagers going by the hacker names \"Electron\" and \"Phoenix\", who were members of an elite computer hacking gro..."
+    ],
+    "net_utility": -28.0
+  },
+  {
+    "id": "34",
+    "question": "Which band, Letters to Cleo or Screaming Trees, had more members?",
+    "gold": "Letters to Cleo",
+    "baseline_pred": "Letters to Cleo",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_deep",
+      "generate",
+      "run_nli_check"
+    ],
+    "final_answer": "Letters to Cleo",
+    "final_cost": 9.0,
+    "evidence": "Letters to Cleo --[CONTAINS]--> Letters to Cleo are an alternative rock band from Boston, Massachusetts, best known for the 1994 single, \"Here & Now\", from their full-length debut album, \"Aurora Gory Alice\". | Letters to Cleo are an alternative rock band from Boston, Massachusetts, best known for the 1994 single, \"Here & Now\", from their full-length debut album, \"Aurora Gory Alice\". --[NEXT]-->  The band's members are Kay Hanley, Greg McKenna, Michael Eisenstein, Stacy Jones, Scott Riebling, and later, Tom Polce. |  The band's members are Kay Hanley, Greg McKenna, Michael Eisenstein, Stacy Jones, Scott Riebling, and later, Tom Polce. --[related_to (edge missing?)]--> Which band, Letters to Cleo or Screaming Trees, had more members? | Which band, Letters to Cleo or Screaming Trees, had more members? --[CANDIDATE_CHUNK]-->  During Screaming Trees' existence the band released seven studio albums, five EPs, and three compilations. |  During Screaming Trees' existence the band released seven studio albums, five EPs, and three compilations. --[related_to (edge missing?)]--> Screaming Trees | Screaming Trees --[CONTAINS]-->  Although widely associated with grunge, the band's sound incorporated hard rock and psychedelic elements. NODES: Letters to Cleo ; Letters to Cleo are an alternative rock band from Boston, Massachusetts, best known for the 1994 single, \"Here & Now\", from their full-length debut album, \"Aurora Gory Alice\". ;  The band's members are Kay Hanley, Greg McKenna, Michael Eisenstein, Stacy Jones, Scott Riebling, and later, Tom Polce. ; Which band, Letters to Cleo or Screaming Trees, had more members? ;  During Screaming Trees' existence the band released seven studio albums, five EPs, and three compilations. ; Screaming Trees ;  Although widely associated with grunge, the band's sound incorporated hard rock and psychedelic elements.",
+    "system_abstained": false,
+    "evidence_metrics": {
+      "path_len": 6,
+      "coherence": 0.0,
+      "diversity": 7,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": true,
+    "graph_action": "answer",
+    "graph_correct": true,
+    "abstain_correct": null,
+    "graph_justification": [
+      "Policy: [R:retrieve_deep, G:generate, V:run_nli_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=6, coherence=0.00, diversity=7, reliability=0.00, degree=2",
+      "Decision: Answered with sufficient structural confidence.",
+      "EVIDENCE_USED: Letters to Cleo --[CONTAINS]--> Letters to Cleo are an alternative rock band from Boston, Massachusetts, best known for the 1994 single, \"Here & Now\", from their full-length debut album, \"Aurora Gory ..."
+    ],
+    "net_utility": 111.0
+  },
+  {
+    "id": "35",
+    "question": "Alexander Kerensky was defeated and destroyed by the Bolsheviks in the course of a civil war that ended when ?",
+    "gold": "October 1922",
+    "baseline_pred": "1848",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "Alexander Kerensky --[CONTAINS]-->  On 7 November, his government was overthrown by the Lenin-led Bolsheviks in the October Revolution. |  On 7 November, his government was overthrown by the Lenin-led Bolsheviks in the October Revolution. --[related_to (edge missing?)]--> Alexander Kerensky was defeated and destroyed by the Bolsheviks in the course of a civil war that ended when ? | Alexander Kerensky was defeated and destroyed by the Bolsheviks in the course of a civil war that ended when ? --[CANDIDATE_CHUNK]-->  The Red Army defeated the White Armed Forces of South Russia in Ukraine and the army led by Admiral Aleksandr Kolchak in Siberia in 1919. |  The Red Army defeated the White Armed Forces of South Russia in Ukraine and the army led by Admiral Aleksandr Kolchak in Siberia in 1919. --[related_to (edge missing?)]--> What was the rank of the leader of the army defeated by West Saxon forces? NODES: Alexander Kerensky ;  On 7 November, his government was overthrown by the Lenin-led Bolsheviks in the October Revolution. ; Alexander Kerensky was defeated and destroyed by the Bolsheviks in the course of a civil war that ended when ? ;  The Red Army defeated the White Armed Forces of South Russia in Ukraine and the army led by Admiral Aleksandr Kolchak in Siberia in 1919. ; What was the rank of the leader of the army defeated by West Saxon forces?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=2",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate).",
+      "EVIDENCE_USED: Alexander Kerensky --[CONTAINS]-->  On 7 November, his government was overthrown by the Lenin-led Bolsheviks in the October Revolution. |  On 7 November, his government was overthrown by the Lenin-led..."
+    ],
+    "net_utility": 9.0
+  },
+  {
+    "id": "36",
+    "question": "Seven Brief Lessons on Physics was written by an Italian physicist that has worked in France since what year?",
+    "gold": "2000",
+    "baseline_pred": "1892",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "Seven Brief Lessons on Physics --[CONTAINS]--> Seven Brief Lessons on Physics (Italian: \"\" ) is a short book by the Italian physicist Carlo Rovelli. | Seven Brief Lessons on Physics (Italian: \"\" ) is a short book by the Italian physicist Carlo Rovelli. --[NEXT]-->  Originally published in Italian in 2014, the book has been translated into 41 languages. |  Originally published in Italian in 2014, the book has been translated into 41 languages. --[related_to (edge missing?)]--> Seven Brief Lessons on Physics was written by an Italian physicist that has worked in France since what year? | Seven Brief Lessons on Physics was written by an Italian physicist that has worked in France since what year? --[CANDIDATE_CHUNK]-->  In 1989, he accepted an appointment at the University of California at Los Angeles (UCLA) as a professor of physics, and later became a Distinguished Professor. NODES: Seven Brief Lessons on Physics ; Seven Brief Lessons on Physics (Italian: \"\" ) is a short book by the Italian physicist Carlo Rovelli. ;  Originally published in Italian in 2014, the book has been translated into 41 languages. ; Seven Brief Lessons on Physics was written by an Italian physicist that has worked in France since what year? ;  In 1989, he accepted an appointment at the University of California at Los Angeles (UCLA) as a professor of physics, and later became a Distinguished Professor.",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=2",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate).",
+      "EVIDENCE_USED: Seven Brief Lessons on Physics --[CONTAINS]--> Seven Brief Lessons on Physics (Italian: \"\" ) is a short book by the Italian physicist Carlo Rovelli. | Seven Brief Lessons on Physics (Italian: \"\" ) is ..."
+    ],
+    "net_utility": 9.0
+  },
+  {
+    "id": "37",
+    "question": "The Livesey Hal War Memorial commemorates the fallen of which war, that had over 60 million casualties?",
+    "gold": "World War II",
+    "baseline_pred": "world war ii",
+    "signal_bin": "T:low_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "generate_consistency",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 6.0,
+    "evidence": "Livesey Hall War Memorial --[CONTAINS]--> The Livesey Hall War Memorial commemorates the fallen of World War I and World War II who had been employed by the South Suburban Gas Company of London. | The Livesey Hall War Memorial commemorates the fallen of World War I and World War II who had been employed by the South Suburban Gas Company of London. --[related_to (edge missing?)]--> The Livesey Hal War Memorial commemorates the fallen of which war, that had over 60 million casualties? | The Livesey Hal War Memorial commemorates the fallen of which war, that had over 60 million casualties? --[CANDIDATE_CHUNK]-->  The Freetown Memorial commemorates 1,109 First World War casualties and 247 from the Second World War. |  The Freetown Memorial commemorates 1,109 First World War casualties and 247 from the Second World War. --[related_to (edge missing?)]-->  The memorial generally commemorates Soldiers from Sierra Leone who died whilst serving with the Royal West African Frontier Force in West Africa and whose graves are not known. NODES: Livesey Hall War Memorial ; The Livesey Hall War Memorial commemorates the fallen of World War I and World War II who had been employed by the South Suburban Gas Company of London. ; The Livesey Hal War Memorial commemorates the fallen of which war, that had over 60 million casualties? ;  The Freetown Memorial commemorates 1,109 First World War casualties and 247 from the Second World War. ;  The memorial generally commemorates Soldiers from Sierra Leone who died whilst serving with the Royal West African Frontier Force in West Africa and whose graves are not known.",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 1
+    },
+    "baseline_correct": true,
+    "abstain_correct": false,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:generate_consistency, V:skip_check]",
+      "Signal bin: T:low_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=1",
+      "Decision: Abstained after pipeline produced no safe answer.",
+      "EVIDENCE_USED: Livesey Hall War Memorial --[CONTAINS]--> The Livesey Hall War Memorial commemorates the fallen of World War I and World War II who had been employed by the South Suburban Gas Company of London. | The..."
+    ],
+    "net_utility": -26.0
+  },
+  {
+    "id": "38",
+    "question": "Are both Elko Regional Airport and Gerald R. Ford International Airport located in Michigan?",
+    "gold": "no",
+    "baseline_pred": "yes",
+    "signal_bin": "T:mid_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "refuse_to_generate",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 1.0,
+    "evidence": "Gerald R. Ford International Airport --[CONTAINS]-->  The Federal Aviation Administration (FAA) National Plan of Integrated Airport Systems for 2017–2021 categorized it as a small hub primary commercial service facility. |  The Federal Aviation Administration (FAA) National Plan of Integrated Airport Systems for 2017–2021 categorized it as a small hub primary commercial service facility. --[related_to (edge missing?)]--> Are both Elko Regional Airport and Gerald R. Ford International Airport located in Michigan? | Are both Elko Regional Airport and Gerald R. Ford International Airport located in Michigan? --[CANDIDATE_CHUNK]-->  The airport is currently served by several passenger airlines: Allegiant Air, Southwest Airlines and Delta Air Lines operate mainline service out of the airport, as well as affiliates of Delta Connection, United Express and American Eagle. |  The airport is currently served by several passenger airlines: Allegiant Air, Southwest Airlines and Delta Air Lines operate mainline service out of the airport, as well as affiliates of Delta Connection, United Express and American Eagle. --[related_to (edge missing?)]--> Lawton–Fort Sill Regional Airport, a charter base for value airline Allegiant Air, is situated in which U.S. state? NODES: Gerald R. Ford International Airport ;  The Federal Aviation Administration (FAA) National Plan of Integrated Airport Systems for 2017–2021 categorized it as a small hub primary commercial service facility. ; Are both Elko Regional Airport and Gerald R. Ford International Airport located in Michigan? ;  The airport is currently served by several passenger airlines: Allegiant Air, Southwest Airlines and Delta Air Lines operate mainline service out of the airport, as well as affiliates of Delta Connection, United Express and American Eagle. ; Lawton–Fort Sill Regional Airport, a charter base for value airline Allegiant Air, is situated in which U.S. state?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 2
+    },
+    "baseline_correct": false,
+    "abstain_correct": true,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:refuse_to_generate, V:skip_check]",
+      "Signal bin: T:mid_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=2",
+      "Decision: Abstained due to weak/insufficient signal (policy refused to generate).",
+      "EVIDENCE_USED: Gerald R. Ford International Airport --[CONTAINS]-->  The Federal Aviation Administration (FAA) National Plan of Integrated Airport Systems for 2017–2021 categorized it as a small hub primary commerci..."
+    ],
+    "net_utility": 9.0
+  },
+  {
+    "id": "39",
+    "question": "Ralph Hefferline was a psychology professor at a university that is located in what city?",
+    "gold": "New York City",
+    "baseline_pred": "New York City",
+    "signal_bin": "T:low_Q:mid",
+    "joint_action": [
+      "retrieve_shallow",
+      "generate_consistency",
+      "skip_check"
+    ],
+    "final_answer": "Abstained: The evidence provided is insufficient to answer the question.",
+    "final_cost": 6.0,
+    "evidence": "Ralph Hefferline --[CONTAINS]--> Ralph Franklin Hefferline (15 February 1910 in Muncie, Indiana – 16 March 1974) was a psychology professor at Columbia University. | Ralph Franklin Hefferline (15 February 1910 in Muncie, Indiana – 16 March 1974) was a psychology professor at Columbia University. --[related_to (edge missing?)]--> Ralph Hefferline was a psychology professor at a university that is located in what city? | Ralph Hefferline was a psychology professor at a university that is located in what city? --[CANDIDATE_CHUNK]--> Columbia University (Columbia; officially Columbia University in the City of New York), established in 1754, is a private Ivy League research university in Upper Manhattan, New York City, often cited as one of the world's most prestigious universities. | Columbia University (Columbia; officially Columbia University in the City of New York), established in 1754, is a private Ivy League research university in Upper Manhattan, New York City, often cited as one of the world's most prestigious universities. --[related_to (edge missing?)]--> Are Columbia University and University of Colorado both private universities? NODES: Ralph Hefferline ; Ralph Franklin Hefferline (15 February 1910 in Muncie, Indiana – 16 March 1974) was a psychology professor at Columbia University. ; Ralph Hefferline was a psychology professor at a university that is located in what city? ; Columbia University (Columbia; officially Columbia University in the City of New York), established in 1754, is a private Ivy League research university in Upper Manhattan, New York City, often cited as one of the world's most prestigious universities. ; Are Columbia University and University of Colorado both private universities?",
+    "system_abstained": true,
+    "evidence_metrics": {
+      "path_len": 4,
+      "coherence": 0.0,
+      "diversity": 5,
+      "reliability": 0.0,
+      "degree": 1
+    },
+    "baseline_correct": true,
+    "abstain_correct": false,
+    "graph_action": "abstain",
+    "graph_correct": false,
+    "graph_justification": [
+      "Policy: [R:retrieve_shallow, G:generate_consistency, V:skip_check]",
+      "Signal bin: T:low_Q:mid",
+      "Evidence metrics: path_len=4, coherence=0.00, diversity=5, reliability=0.00, degree=1",
+      "Decision: Abstained after pipeline produced no safe answer.",
+      "EVIDENCE_USED: Ralph Hefferline --[CONTAINS]--> Ralph Franklin Hefferline (15 February 1910 in Muncie, Indiana – 16 March 1974) was a psychology professor at Columbia University. | Ralph Franklin Hefferline (15 Febr..."
+    ],
+    "net_utility": -26.0
+  }
+]

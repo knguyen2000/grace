@@ -1,7 +1,3 @@
-"""
-Improved answer validation with proper numeric and date normalization.
-Based on SQuAD-style evaluation and best practices for QA systems.
-"""
 import re
 from typing import Optional, Tuple, List
 from datetime import datetime
@@ -266,7 +262,7 @@ class AnswerValidator:
         Args:
             pred: Predicted answer
             gold: Gold standard answer
-            bertscore_threshold: BERTScore F1 threshold (default 0.90)
+            bertscore_threshold: BERTScore F1 threshold
             use_bertscore: Whether to use BERTScore as fallback
             bertscore_func: Function to compute BERTScore (pred, gold) -> float
         """
@@ -307,7 +303,7 @@ class AnswerValidator:
         
         pred_words = pred.split()
         
-        # If prediction is short (≤3 words) and appears in gold answer, consider it correct
+        # If prediction is short (<=3 words) and appears in gold answer, consider it correct
         if len(pred_words) <= 3 and pred_norm in gold_norm:
             return True, "subset_match_in_gold"
         
@@ -322,9 +318,10 @@ class AnswerValidator:
             if pred_significant and pred_significant.issubset(gold_words_lower):
                 return True, "significant_words_subset_match"
             
-            # Special case: Person names - if prediction is 2 words (likely first+last name)
+            # Special case: Person names - if prediction is 2 words (first+last name)
             # and the last name appears in gold, consider it correct
             # (e.g., "Ian Watkins" where "Watkins" appears in gold)
+            # not best practice, but it works for now
             if len(pred_words) == 2 and pred_words[0][0].isupper() and pred_words[1][0].isupper():
                 last_name = pred_words[-1].lower()
                 if last_name in gold_words_lower:
@@ -340,7 +337,7 @@ class AnswerValidator:
             if pred_caps_norm and pred_caps_norm.issubset(gold_caps_norm):
                 return True, "entity_subset_match"
         
-        # 5. For short answers (≤5 words), require exact match
+        # 5. For short answers (<=5 words), require exact match
         gold_words = gold.split()
         if len(pred_words) <= 5 and len(gold_words) <= 5:
             # Already checked exact match above, so this is a mismatch
@@ -357,7 +354,7 @@ class AnswerValidator:
             except Exception as e:
                 return False, f"bertscore_error_{str(e)}"
         
-        # 6. Default: no match
+        # Default: no match
         return False, "no_match"
 
 
@@ -368,20 +365,7 @@ def validate_answer_batch(
     use_bertscore: bool = True,
     bertscore_batch_func=None
 ) -> List[Tuple[bool, str]]:
-    """
-    Validate a batch of answers.
-    
-    Args:
-        preds: List of predicted answers
-        golds: List of gold standard answers
-        bertscore_threshold: BERTScore F1 threshold
-        use_bertscore: Whether to use BERTScore
-        bertscore_batch_func: Function to compute BERTScore for batch
-                              (preds, golds) -> List[float]
-    
-    Returns:
-        List of (is_correct, reason) tuples
-    """
+
     results = []
     
     # First pass: try exact/numeric/date matching

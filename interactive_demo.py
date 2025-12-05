@@ -88,6 +88,71 @@ def main():
         print(f"Cost: {cost} | Time: {duration:.2f}s")
         if evidence:
             print(f"Evidence Used: {evidence[:100]}...")
+            if final_path:
+                print("Visualizing evidence path...")
+                visualize_path(G, final_path)
+
+def visualize_path(G, path):
+    """
+    Visualizes the evidence path using matplotlib.
+    """
+    try:
+        import matplotlib.pyplot as plt
+        import textwrap
+    except ImportError:
+        print("matplotlib not installed. Skipping visualization.")
+        return
+
+    if not path or len(path) < 2:
+        return
+
+    # Create subgraph
+    subgraph = G.subgraph(path).copy()
+    
+    # Create layout
+    pos = {}
+    for i, node in enumerate(path):
+        pos[node] = (i, 0) # Linear layout left-to-right
+
+    plt.figure(figsize=(16, 6)) # Wider and taller
+    
+    # Draw nodes
+    nx.draw_networkx_nodes(subgraph, pos, node_color='lightblue', node_size=5000, alpha=0.9) # Huge nodes
+    
+    # Draw edges
+    nx.draw_networkx_edges(subgraph, pos, edge_color='gray', arrows=True, width=2, arrowsize=30)
+    
+    # Labels with very tight wrapping
+    labels = {}
+    for n in subgraph.nodes():
+        raw_label = G.nodes[n].get("label", str(n))
+        # Wrap very tight (10 chars)
+        labels[n] = "\n".join(textwrap.wrap(raw_label, width=10))
+        
+    nx.draw_networkx_labels(subgraph, pos, labels=labels, font_size=7, font_weight='bold')
+    
+    # Edge Labels
+    edge_labels = {}
+    for u, v in zip(path[:-1], path[1:]):
+        if G.has_edge(u, v):
+            rel = G.edges[u, v].get("relation", "rel")
+            edge_labels[(u, v)] = rel
+            
+    nx.draw_networkx_edge_labels(subgraph, pos, edge_labels=edge_labels, font_size=7, label_pos=0.5, font_color='red', rotate=False)
+    
+    plt.title("Evidence Path", fontsize=16)
+    plt.axis('off')
+    
+    # Large margins to handle overflow
+    plt.margins(x=0.3, y=0.3)
+    plt.tight_layout()
+    
+    # Save to file
+    output_file = os.path.abspath("evidence_viz_latest.png")
+    plt.savefig(output_file, bbox_inches='tight', dpi=150)
+    print(f"Visualization saved to: {output_file}")
+    plt.close() # Close figure to free memory
 
 if __name__ == "__main__":
+    import networkx as nx # Import here for the visualizer
     main()

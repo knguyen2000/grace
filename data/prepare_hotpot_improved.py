@@ -1,14 +1,3 @@
-"""
-Improved HotpotQA graph preparation based on KG²RAG (Knowledge Graph-Guided RAG).
-Reference: arXiv:2502.06864
-
-Key features:
-1. Hierarchical Graph: Document -> Sentence (Chunk) -> Entity/Concept
-2. Chunk Expansion: Sentences are linked via shared entities and 'NEXT' relations.
-3. SVO Extraction: Uses dependency parsing to find semantic relations between entities.
-4. Relevance Pruning: Filters sentences based on similarity to the question.
-"""
-
 import csv
 import random
 import sys
@@ -60,22 +49,21 @@ except ImportError:
 
 OUT_NODES = "data/nodes.csv"
 OUT_EDGES = "data/edges.csv"
-SAMPLE_SIZE = 1000
+SAMPLE_SIZE = 5000
 
-# Performance optimization: caching
 _normalize_cache = {}
 _text_normalizer = TextNormalizer()
 
 def cached_normalize_text(text):
-    """Cached version of TextNormalizer.normalize_text."""
+    """Cached version of TextNormalizer.normalize_text"""
     if text not in _normalize_cache:
         _normalize_cache[text] = _text_normalizer.normalize_text(text)
     return _normalize_cache[text]
 
 def extract_svo(doc):
     """
-    Extract Subject-Verb-Object triples from a spaCy Doc.
-    Returns list of (subject, verb, object) tuples.
+    Extract Subject-Verb-Object triples from a spaCy Doc
+    Returns list of (subject, verb, object) tuples
     """
     triples = []
     for token in doc:
@@ -107,8 +95,8 @@ def extract_svo(doc):
 
 def extract_entities_and_concepts(doc):
     """
-    Extract Named Entities and important Noun Chunks (Concepts).
-    Returns list of (text, type, label) tuples.
+    Extract Named Entities and important Noun Chunks (Concepts)
+    Returns list of (text, type, label) tuples
     """
     items = []
     
@@ -129,7 +117,7 @@ def extract_entities_and_concepts(doc):
     return items
 
 def compute_similarity(text1, text2):
-    """Compute cosine similarity between two texts."""
+    """Compute cosine similarity between two texts"""
     if not (HAS_SENTENCE_TRANSFORMERS and st_model):
         return 0.0
     
@@ -140,10 +128,7 @@ def compute_similarity(text1, text2):
 
 def main():
     ds = load_dataset("hotpot_qa", "distractor")["validation"]
-    idxs = list(range(len(ds)))
-    random.seed(42)
-    random.shuffle(idxs)
-    idxs = idxs[:SAMPLE_SIZE]
+    idxs = list(range(min(len(ds), SAMPLE_SIZE)))
 
     nodes = {}
     edges = defaultdict(lambda: {"relation": "supports", "weight": 0.9, "count": 0})
@@ -178,13 +163,6 @@ def main():
     def add_edge(src, dst, relation, weight=1.0):
         if not src or not dst or src == dst:
             return
-        
-        key = tuple(sorted((src, dst))) + (relation,) # Undirected storage key?
-        # Actually, for directed graphs, we shouldn't sort.
-        # But the existing code used sorted keys for undirected edges?
-        # Let's use directed keys for specific relations like 'NEXT' or 'CONTAINS'.
-        # For 'RELATED_TO', it might be symmetric.
-        # To keep it simple and compatible with typical GNN/GraphRAG flows, let's treat as directed.
         
         key = (src, dst, relation)
         
@@ -304,7 +282,7 @@ def main():
                     # Extract Entities & Concepts
                     items = extract_entities_and_concepts(doc)
                     for text, type_, label in items:
-                        ent_node_id = add_node(text, type_, metadata={"label": label})
+                        ent_node_id = add_node(text, type_, metadata={"entity_type": label})
                         # Edge: Sentence -> Entity
                         add_edge(sent_node_id, ent_node_id, "MENTIONS")
                     
@@ -316,7 +294,6 @@ def main():
                         obj_id = cached_normalize_text(obj)
                         
                         # Only add edge if both nodes exist (were extracted as entities/concepts)
-                        # Or force create them? Let's force create if they look valid
                         if subj_id in nodes and obj_id in nodes:
                             add_edge(subj_id, obj_id, verb.upper()) # Use verb as relation type
 

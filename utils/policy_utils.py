@@ -1,4 +1,3 @@
-# utils/policy_utils.py
 from config import SIG_THRESHOLDS
 
 def get_signal_bin(G, start_node_id, thresholds, path_metrics):
@@ -28,10 +27,30 @@ def get_signal_bin(G, start_node_id, thresholds, path_metrics):
     def bin_val(val, th):
         return "low" if val < th[0] else ("mid" if val < th[1] else "high")
 
-    rel_bin = bin_val(reliability, t('reliability'))
-    deg_bin = bin_val(degree,      t('degree'))
-    len_bin = bin_val(path_len,    t('len'))
-    coh_bin = bin_val(coherence,   t('coherence'))
-    div_bin = bin_val(diversity,   t('diversity'))
+    rel_bin = 0 if reliability < t('reliability')[0] else (1 if reliability < t('reliability')[1] else 2)
+    deg_bin = 0 if degree < t('degree')[0] else (1 if degree < t('degree')[1] else 2)
+    
+    # Quality metrics
+    len_bin = 0 if path_len < t('len')[0] else (1 if path_len < t('len')[1] else 2)
+    coh_bin = 0 if coherence < t('coherence')[0] else (1 if coherence < t('coherence')[1] else 2)
+    div_bin = 0 if diversity < t('diversity')[0] else (1 if diversity < t('diversity')[1] else 2)
 
-    return f"rel:{rel_bin}_deg:{deg_bin}_len:{len_bin}_coh:{coh_bin}_div:{div_bin}"
+    # Dimensionality Reduction: Aggregate into Meta-Signals
+    # Trust Score (0-4): Sum of Reliability and Degree bins
+    trust_score = rel_bin + deg_bin
+    
+    # Quality Score (0-6): Sum of Len, Coh, and Div bins
+    quality_score = len_bin + coh_bin + div_bin
+
+    # Bin the Meta-Signals into Low/Mid/High
+    # Trust: 0-1 -> Low(0), 2 -> Mid(1), 3-4 -> High(2)
+    if trust_score <= 1: t_bin = "low"
+    elif trust_score <= 2: t_bin = "mid"
+    else: t_bin = "high"
+
+    # Quality: 0-2 -> Low(0), 3-4 -> Mid(1), 5-6 -> High(2)
+    if quality_score <= 2: q_bin = "low"
+    elif quality_score <= 4: q_bin = "mid"
+    else: q_bin = "high"
+
+    return f"T:{t_bin}_Q:{q_bin}"

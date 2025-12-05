@@ -10,7 +10,6 @@ def print_stats():
         return
 
     # Calculate stats for GRACE (Model 4)
-    # The JSON contains a list of results for GRACE
     
     total = len(data)
     correct = sum(1 for r in data if r.get('is_correct'))
@@ -31,15 +30,6 @@ def print_stats():
         print(f"Accuracy (Answered): {acc_answered:.2%}")
     else:
         print("Accuracy (Answered): N/A")
-
-    # Check GraphRAG stats if available in the JSON?
-    # The JSON structure is a list of dicts for GRACE results only?
-    # run_evaluation.py saves `final_results` which corresponds to `preds_grace`.
-    # It doesn't save all models' full details in this JSON, only GRACE's detailed log.
-    
-    # But wait, run_evaluation.py prints the table for ALL models.
-    # I can't reconstruct the full table from this JSON alone.
-    # But I can see if GRACE is still 100% abstain.
     
 if __name__ == "__main__":
     print_stats()

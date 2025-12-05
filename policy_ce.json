@@ -1,76 +1,59 @@
 {
   "policy": {
-    "rel:mid_deg:high_len:mid_coh:mid_div:mid": {
+    "T:mid_Q:mid": {
       "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02,
-      "('retrieve_shallow', 'generate', 'skip_check')": 0.02,
-      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.814376856447768,
-      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02,
-      "('retrieve_deep', 'generate', 'skip_check')": 0.02,
-      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06562314355137139,
-      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.020000000000860538,
-      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.020000000000000108
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.02000000000000128,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.7895052739175001,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.019999999999999997,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.019999999999999997,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06419470342132738,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.02000000139290046,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.026300021220685543,
+      "('skip_retrieval', 'generate_parametric', 'skip_check')": 0.020000000047585117
     },
-    "rel:mid_deg:mid_len:mid_coh:mid_div:mid": {
-      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02,
-      "('retrieve_shallow', 'generate', 'skip_check')": 0.02,
-      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.020000000000009222,
-      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02,
-      "('retrieve_deep', 'generate', 'skip_check')": 0.02,
-      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.02000000000000053,
-      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.8599999999999903,
-      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02
+    "T:high_Q:mid": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02013879762573923,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.062078939983452375,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.752666218606158,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.020007971511194326,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.02241670373925454,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.062078939983452375,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.020579165555885064,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.020033262994864062,
+      "('skip_retrieval', 'generate_parametric', 'skip_check')": 0.019999999999999997
     },
-    "rel:high_deg:low_len:low_coh:low_div:low": {
-      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02014228920438071,
-      "('retrieve_shallow', 'generate', 'skip_check')": 0.06313747342247696,
-      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.7710970938217242,
-      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02000817204170109,
-      "('retrieve_deep', 'generate', 'skip_check')": 0.022477498087240082,
-      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06313747342247696,
-      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.02,
-      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02
-    },
-    "rel:mid_deg:low_len:mid_coh:mid_div:mid": {
-      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02,
-      "('retrieve_shallow', 'generate', 'skip_check')": 0.02,
-      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.8137494052247695,
-      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02,
-      "('retrieve_deep', 'generate', 'skip_check')": 0.02,
-      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06558710738417191,
-      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.02062745122381241,
-      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02003603616724622
-    },
-    "rel:mid_deg:low_len:low_coh:low_div:low": {
-      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02014218293368409,
-      "('retrieve_shallow', 'generate', 'skip_check')": 0.06310525559280486,
-      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.7705361263770398,
-      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02000816593829663,
-      "('retrieve_deep', 'generate', 'skip_check')": 0.022475647732894892,
-      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06310525559280486,
-      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.020593291545052992,
-      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02003407428742172
+    "T:low_Q:mid": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.019999999999999997,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.019999999999999997,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.019999999999999997,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.019999999999999997,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.019999999999999997,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.019999999999999997,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.8399999705716727,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02000002942832716,
+      "('skip_retrieval', 'generate_parametric', 'skip_check')": 0.020000000000000056
     }
   },
   "signal_thresholds": {
     "reliability": [
-      -0.049874223088230044,
-      0.05012577691176996
+      -0.05,
+      0.05
     ],
     "degree": [
-      2.0,
-      2.653999999999998
-    ],
-    "len": [
-      0.95,
-      1.05
-    ],
-    "coherence": [
-      0.95,
-      1.05
-    ],
-    "diversity": [
       1.95,
       2.05
+    ],
+    "len": [
+      3.95,
+      4.05
+    ],
+    "coherence": [
+      -0.05,
+      0.05
+    ],
+    "diversity": [
+      4.95,
+      5.05
     ]
   },
   "temperature": 0.7,

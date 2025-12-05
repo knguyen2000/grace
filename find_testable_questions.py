@@ -22,7 +22,7 @@ for i, ex in enumerate(ds):
     start_node = pick_start_node_from_question(G, question)
     
     if start_node:
-        print(f"✓ Question: {question}")
+        print(f" Question: {question}")
         print(f"  Entity: {G.nodes[start_node]['label']}")
         print(f"  Gold Answer: {ex['answer']}")
         print()
@@ -30,4 +30,3 @@ for i, ex in enumerate(ds):
 
 if found == 0:
     print("No questions found with entities in the graph.")
-    print("This is expected for a very small graph (1000 samples).")

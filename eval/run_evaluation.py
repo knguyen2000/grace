@@ -4,27 +4,32 @@ import sys
 import io
 import os
 import random
-import numpy as np
-def tqdm(iterable, **kwargs):
-    return iterable
-from pathlib import Path
-from ast import literal_eval
-import argparse
-import torch
 import time
+import argparse
+from ast import literal_eval
+from pathlib import Path
 
+# --- Path Setup ---
 # Add project root to Python path
 project_root = Path(__file__).parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-from bert_score import score as bert_score
-from utils.text_normalization import TextNormalizer
-from utils.answer_validation import AnswerValidator, validate_answer_batch
+# --- Third Party Imports ---
+import numpy as np
+import torch
 import nltk
+from bert_score import score as bert_score
+from datasets import load_dataset
 
+# Fix Windows/encoding issues
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
+# Mock tqdm if not present
+def tqdm(iterable, **kwargs):
+    return iterable
+
+# --- NLTK Setup ---
 try:
     print("Checking NLTK resources...")
     nltk.data.find('corpora/stopwords')
@@ -32,12 +37,13 @@ try:
     nltk.data.find('taggers/averaged_perceptron_tagger')
     print("NLTK resources found.")
 except LookupError:
-    print("Downloading NLTK resources (stopwords, punkt, averaged_perceptron_tagger)...")
+    print("Downloading NLTK resources...")
     nltk.download('stopwords', quiet=True)
     nltk.download('punkt', quiet=True)
     nltk.download('averaged_perceptron_tagger', quiet=True)
     print("NLTK resources downloaded.")
 
+# --- Local Imports ---
 from config import (
     DEVICE,
     BERTSCORE_THRESHOLD,
@@ -48,14 +54,10 @@ from config import (
     UTILITIES,
     JOINT_ACTIONS,
     DEFAULT_WIDTH,
-    DEFAULT_WIDTH,
     DEFAULT_POLICY
 )
 
-BASELINE_CONF_THRESHOLD = 0.7
-GRAPHRAG_POLICY = ('retrieve_shallow', 'generate', 'skip_check')
-
-# --- Import Project Modules ---
+# Project Modules
 from graph.build_networkx import build_graph
 from retrieval.retriever import retrieve_paths, select_best_path
 from retrieval.entity_linking import pick_start_node_from_question
@@ -64,13 +66,14 @@ from models.verifier import NliVerifier
 from policy.mediator import CeMediator
 from policy.build_policy import build_ce_policy
 from eval.evaluation import evaluate_batch
-from datasets import load_dataset
 from utils.policy_utils import get_signal_bin
+from utils.text_normalization import TextNormalizer
+from utils.answer_validation import AnswerValidator, validate_answer_batch
 
-# ----------------------------
+BASELINE_CONF_THRESHOLD = 0.7
+GRAPHRAG_POLICY = ('retrieve_shallow', 'generate', 'skip_check')
+
 # Helper functions
-# ----------------------------
-
 def seed_everything(seed=42):
     random.seed(seed)
     np.random.seed(seed)
@@ -100,16 +103,7 @@ def load_hotpot_subset(limit=200, start_index=0):
     return subset
 
 def is_correct_bertscore(preds, golds, exact_match_threshold_len=5):
-    """
-    Improved answer validation with proper numeric and date normalization.
-    
-    Uses AnswerValidator which:
-    - Handles numeric values strictly (1945 != 1946, but "5" == "five")
-    - Normalizes dates (Jan 1 == January 1st)
-    - Falls back to BERTScore for semantic similarity
-    
-    Returns a list of native Python bools (not numpy.bool_) to avoid JSON issues.
-    """
+
     if not preds or not golds or len(preds) != len(golds):
         print(f"Warning: Mismatched lengths or empty lists in is_correct_bertscore. Preds: {len(preds)}, Golds: {len(golds)}")
         return [False] * len(preds)
@@ -167,13 +161,10 @@ def build_evidence_from_path(G, path):
     node_list = " ; ".join(G.nodes[n].get("label", n) for n in all_nodes if n in G.nodes)
     if not parts:
         return f"NODES: {node_list}" if node_list else ""
-    return f"{' | '.join(parts)}\nNODES: {node_list}"
+    return f"{' | '.join(parts)} NODES: {node_list}"
 
 def compute_evidence_metrics(G, path):
-    """
-    Compute structural evidence metrics used for binning and justification.
-    Returns a dict with native Python types.
-    """
+
     if not path:
         return {
             "path_len": 0,        # edges in path
@@ -214,10 +205,7 @@ def _fmt(x, nd=2):
     return str(x)
 
 def execute_joint_action(G, gen, verifier, question, start_node_id, joint_action, width):
-    """
-    Returns:
-      answer, evidence, v_label, total_cost, best_path, metrics (dict)
-    """
+
     if not isinstance(joint_action, tuple) or len(joint_action) != 3:
         joint_action = DEFAULT_POLICY
 
@@ -228,7 +216,12 @@ def execute_joint_action(G, gen, verifier, question, start_node_id, joint_action
     metrics = {"path_len": 0, "diversity": 0, "coherence": 0.0}
 
     # Retrieval
-    if start_node_id and start_node_id in G.nodes:
+    if action_R == 'skip_retrieval':
+         # Parametric mode: intentionally skip retrieval
+        best_path = []
+        evidence = ""
+        total_cost += float(COSTS.get(action_R, 0.0))
+    elif start_node_id and start_node_id in G.nodes:
         try:
             paths = retrieve_paths(G, start_node_id, action=action_R, max_width=width)
             if paths:
@@ -240,8 +233,20 @@ def execute_joint_action(G, gen, verifier, question, start_node_id, joint_action
             evidence = ""
             best_path = None
             metrics = {"path_len": 0, "diversity": 0, "coherence": 0.0}
+        total_cost += float(COSTS.get(action_R, 1.0))
+    else:
+        total_cost += float(COSTS.get(action_R, 1.0))
 
-    total_cost += float(COSTS.get(action_R, 1.0))
+    # Handle Retrieval Failure
+    if not evidence and action_R != 'skip_retrieval':
+        # If we tried to retrieve but got nothing (dead end or disconnected node)
+        # It is irrational to pay for 'generate' or 'run_nli_check' => fallback.
+        
+        if action_G == 'generate':
+            action_G = 'generate_parametric'
+            
+        if action_V == 'run_nli_check':
+            action_V = 'skip_check'
 
     # Generation
     answer = None
@@ -249,27 +254,25 @@ def execute_joint_action(G, gen, verifier, question, start_node_id, joint_action
         total_cost += float(COSTS.get(action_G, 2.0))
         if evidence:
             try:
-                # --- FIXED: Pass best_path to the generator ---
+                # Pass best_path to the generator ---
                 answer = gen.generate_from_evidence(question, evidence, path=best_path)
-                # --- END FIX ---
                 # Standardize "I don't know" as abstention
                 if answer and answer.lower().strip().strip('"').strip("'") == "i don't know":
                     answer = None
             except Exception as e:
                 print(f"\n Error during generation for question {question}: {e}")
                 answer = None
+    elif action_G == 'generate_parametric':
+         # Parametric generation: use baseline generator (no evidence)
+         total_cost += float(COSTS.get(action_G, 2.0))
+         try:
+             ans, _ = gen.generate_baseline(question, return_confidence=True)
+             answer = ans
+         except Exception as e:
+             print(f"\nError during parametric generation for {question}: {e}")
+             answer = None
     elif action_G == 'generate_consistency':
         total_cost += float(COSTS.get(action_G, 5.0))
-        # Self-Consistency ignores evidence (it's a fallback for when evidence is bad)
-        # But wait, if we have evidence, should we use it?
-        # The prompt says "Answer the question using ONLY the evidence below".
-        # If the evidence is bad, the model might hallucinate or say "I don't know".
-        # But 'generate_consistency' is intended for when the graph is weak.
-        # The user said: "If the model actually knows the answer... permit generation."
-        # This implies Closed-Book generation (ignoring the weak graph).
-        # So we should call generate_with_consistency which uses a closed-book prompt (or we need to update it).
-        # Let's check generate_with_consistency again.
-        # It uses `prompt = f"Question: {question}\nAnswer:"`. Yes, it's closed-book.
         try:
             answer = gen.generate_with_consistency(question, k=5, threshold=0.8)
             # Standardize "I don't know" as abstention
@@ -304,9 +307,7 @@ def execute_joint_action(G, gen, verifier, question, start_node_id, joint_action
     return answer, evidence, v_label, float(total_cost), best_path, metrics
 
 def get_ce_justification(joint_action, outcome, signal_bin=None, metrics=None, reliability=None, degree=None, evidence=None):
-    """
-    Human-readable justification that includes structural signals.
-    """
+    
     if not isinstance(joint_action, tuple) or len(joint_action) != 3:
         joint_action = DEFAULT_POLICY
     R_act, G_act, V_act = joint_action
@@ -337,43 +338,63 @@ def get_ce_justification(joint_action, outcome, signal_bin=None, metrics=None, r
         ev = evidence.replace("\n", " ")
         parts.append(f"EVIDENCE_USED: {ev[:200]}{'...' if len(ev) > 200 else ''}")
 
-    return "\n".join(parts)
+    return parts
 
 def get_abstain_description(joint_action, v_label, evidence):
-    """
-    Returns a descriptive string explaining why the system abstained.
-    Replaces _infer_abstain_reason.
-    """
-    reason_string = "Abstained: Reason unspecified."
 
+    # Case: Explicit refusal to generate
     if isinstance(joint_action, (list, tuple)) and len(joint_action) == 3:
         if joint_action[1] == 'refuse_to_generate':
-            reason_string = "Abstained: Policy chose not to generate based on signals."
-            return reason_string
+            return (
+                "I’m not able to give an answer because the signals I detected "
+                "suggest that responding could lead to an unreliable or unsafe answer."
+            )
 
-    # If policy *didn't* refuse, check other pipeline stages
+    # Other abstention reasons
     if v_label == 'contradicts':
-        reason_string = "Abstained: Verifier found contradiction between evidence and potential answer."
+        return (
+            "I chose not to answer because the information I found disagrees with "
+            "the possible answer. Since the evidence does not support a clear conclusion, "
+            "I prefer not to guess."
+        )
+
     elif not evidence:
-         # Check if lack of evidence was the primary issue *after* policy allowed generation attempt
-        reason_string = "Abstained: No evidence path found for the question."
+        return (
+            "I’m not able to answer because I could not find any information related "
+            "to the question. Without supporting evidence, I prefer not to guess."
+        )
+
     elif v_label == 'error':
-        reason_string = "Abstained: Error during verification step."
+        return (
+            "I could not answer due to an unexpected issue while checking the information. "
+            "Because I couldn’t confirm the reliability of the evidence, I preferred to abstain."
+        )
+
     elif v_label == 'no_answer_to_verify':
-         # This implies generation failed or returned empty
-        reason_string = "Abstained: Generation failed or produced no answer text."
+        return (
+            "I’m not able to answer because I couldn't form a clear response from the information available. "
+            "Since there was no meaningful answer to evaluate, I chose to abstain."
+        )
+
     elif v_label == 'no_evidence_to_verify':
-        # This implies generation happened but evidence was missing *at verification time*
-        reason_string = "Abstained: Answer generated, but no evidence was found to verify against."
+        return (
+            "I found a possible answer, but I could not locate any information to support it. "
+            "Without evidence to verify the answer, I preferred to abstain."
+        )
+
     elif v_label == 'skipped':
-        # If verification was skipped but we still abstained, it must be the generator
-        reason_string = "Abstained: Model returned 'I don't know' or generation failed."
+        return (
+            "I’m not certain enough to answer the question. The information I found did not "
+            "give me enough confidence, so I chose not to guess."
+        )
 
-    return reason_string
+    # Default fallback
+    return (
+        "I chose not to answer because I couldn’t ensure the information was reliable enough. "
+        "To avoid giving a potentially incorrect answer, I preferred to abstain."
+    )
 
-# ----------------------------
 # Main evaluation
-# ----------------------------
 def main(args):
     seed_everything()
     Path("outputs").mkdir(exist_ok=True)
@@ -436,7 +457,7 @@ def main(args):
     print(f"  coherence  : {coh_thresh}")
     print(f"  diversity  : {div_thresh}")
 
-    # --- Phase 1 Simulation ---
+    # Phase 1 Simulation
     if os.path.exists(SIMULATION_DATA_FILE) and not args.force_calib:
         print(f"Skipping simulation: Found existing data at {SIMULATION_DATA_FILE}.")
     else:
@@ -444,7 +465,6 @@ def main(args):
         all_sims_to_score = []
         all_sim_preds = []
         
-        # --- FIXED: Run baseline once for calibration set ---
         all_baseline_preds_for_calib = []
         print("Running baseline model for calibration set...")
         for ex in tqdm(calibration_questions, desc="Running baseline"):
@@ -454,7 +474,6 @@ def main(args):
             all_baseline_preds_for_calib,
             [ex["gold_answer"] for ex in calibration_questions]
         )
-        # --- END FIX ---
 
         for i, ex in enumerate(tqdm(calibration_questions, desc="Simulating Actions")):
             q, gold = ex["question"], ex["gold_answer"]
@@ -557,7 +576,6 @@ def main(args):
         gr_text = gr_answer if gr_answer else ""
 
         # Model 4: GRACE (Existing Logic)
-
         path_metrics = {"path_len": 0, "diversity": 0, "coherence": 0.0}
         best_path_probe = None # Store the probed path for metrics
         if start_node_id and start_node_id in G.nodes:
@@ -601,7 +619,7 @@ def main(args):
         else:
             reliability, degree = 0.5, 0
 
-        # Use the metrics from the *actual* executed path for logging
+        # Use the metrics from the actual executed path for logging
         final_metrics = actual_metrics
 
         system_abstained = (ce_answer_text is None)
@@ -617,9 +635,9 @@ def main(args):
         preds_graphrag.append(gr_text)
         preds_baseline_ce.append(b_ce_text)
 
-        # Store results
+        # Store boolean for robust checking later
         final_results.append({
-            "id": ex["id"], # Using original 'id' key for consistency
+            "id": ex["id"],
             "question": q,
             "gold": gold,
             "baseline_pred": baseline_text,
@@ -628,6 +646,7 @@ def main(args):
             "final_answer": final_answer_output, # Contains either answer or descriptive abstention
             "final_cost": float(cost_incurred),
             "evidence": evidence_used,
+            "system_abstained": system_abstained,
             "evidence_metrics": {
                 "path_len": int(final_metrics.get("path_len", 0)),
                 "coherence": float(final_metrics.get("coherence", 0.0)),
@@ -636,8 +655,6 @@ def main(args):
                 "degree": int(degree) # Start node degree
             }
         })
-
-
 
     # --- Compute Metrics for All 4 Models ---
     def get_metrics(preds, golds, model_name):
@@ -660,35 +677,45 @@ def main(args):
     acc_bce, abs_bce, acc_ans_bce = get_metrics(preds_baseline_ce, all_golds, "Baseline+CE")
     acc_grace, abs_grace, acc_ans_grace = get_metrics(preds_grace, all_golds, "GRACE")
 
-    # Reuse existing logic for detailed GRACE analysis
     ce_correct_list = is_correct_bertscore(preds_grace, all_golds)
     baseline_correct_list = is_correct_bertscore(preds_baseline, all_golds)
 
     all_net_utilities = []
     processed_results = []
+
     # --- Process results for evaluation metrics ---
     for i, r in enumerate(final_results):
         is_ce_correct = bool(ce_correct_list[i])
         baseline_correct = bool(baseline_correct_list[i])
-        answer_text = r['final_answer'] # This is now either the answer or the abstention description
+        answer_text = r['final_answer']
         cost = float(r.get('final_cost', 0.0))
         r['baseline_correct'] = bool(baseline_correct)
 
-        # Determine if the system *intended* to abstain based on the action taken
-        # This is more robust than checking if the answer_text starts with "Abstained:"
-        system_chose_to_abstain = False
-        if isinstance(r.get('joint_action'), (list, tuple)) and len(r['joint_action']) == 3:
-             # Policy refused, or verifier contradicted (forcing abstention in execute_joint_action)
-             if r['joint_action'][1] == 'refuse_to_generate' or (answer_text.startswith("Abstained: Verifier found contradiction")):
+        # Determine if the system intended to abstain based on the action taken
+        system_chose_to_abstain = r.get('system_abstained', False)
+        
+        # Also catch older cases if 'system_abstained' key wasn't present (backward compat)
+        if not system_chose_to_abstain:
+             if isinstance(r.get('joint_action'), (list, tuple)) and len(r['joint_action']) == 3:
+                  # Policy refused, or verifier contradicted (forcing abstention in execute_joint_action)
+                  if r['joint_action'][1] == 'refuse_to_generate' or (str(answer_text).startswith("Abstained: Verifier found contradiction")):
+                       system_chose_to_abstain = True
+             # Fallback check on the string content if needed
+             elif isinstance(answer_text, str) and answer_text.startswith("Abstained:"):
                   system_chose_to_abstain = True
-        # Add other logic if needed (e.g., if generation failure always counts as abstain decision)
-        # Fallback check on the string content if needed, but action is better
-        elif isinstance(answer_text, str) and answer_text.startswith("Abstained:"):
-             system_chose_to_abstain = True
 
 
         if system_chose_to_abstain:
             outcome = "abstain"
+            
+            # --- Human-in-the-Loop Clarification ---
+            # Instead of a generic message, generate a specific request
+            try:
+                 clarification = gen.generate_clarification(r['question'], r.get('evidence', ''))
+                 r['final_answer'] = f"Abstained: {clarification}" 
+            except Exception as e:
+                 r['final_answer'] = "Abstained: I need more information to answer this question safe ly."
+            
             # Reward correct abstain (baseline also failed), penalize wrong abstain (baseline succeeded)
             if not baseline_correct:
                 outcome_utility = float(UTILITIES['correct_abstain'])
@@ -738,7 +765,7 @@ def main(args):
     graph_eval = evaluate_batch(processed_results, mode="graph")
     avg_net_utility = float(np.mean(all_net_utilities)) if all_net_utilities else 0.0
 
-    # Abstain diagnostics (using graph_action == 'abstain')
+    # Abstain diagnostics
     num_correct_abstain = sum(1 for r in processed_results if r.get('graph_action') == 'abstain' and r.get('abstain_correct') is True)
     num_wrong_abstain = sum(1 for r in processed_results if r.get('graph_action') == 'abstain' and r.get('abstain_correct') is False)
     num_total_abstain = num_correct_abstain + num_wrong_abstain
