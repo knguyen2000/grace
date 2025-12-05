@@ -1,0 +1,39 @@
+# Core graph + retrieval
+networkx==3.2.1
+neo4j==5.21.0
+
+# Language model
+transformers==4.44.2
+sentence-transformers==3.1.0
+torch>=2.2.0
+
+# Verification
+rapidfuzz==3.9.2
+
+# Evaluation metrics
+bert-score>=0.3.13  # For semantic similarity evaluation
+nltk>=3.8  # For text processing and stopwords
+
+# Confidence & policy
+pulp==2.9.0        # for optional LP solver
+
+# Evaluation & utils
+numpy>=1.25.0
+scipy>=1.11.0
+scikit-learn>=1.3.0
+matplotlib>=3.8.0
+tqdm>=4.66.0  # Progress bars
+word2number>=1.1  # For number word normalization (five -> 5)
+python-dateutil>=2.8.0  # For date parsing and normalization
+
+# Optional: For improved graph construction (prepare_hotpot_improved.py)
+# spacy>=3.7.0  # Uncomment for better entity recognition
+# python -m spacy download en_core_web_sm  # Run after installing spacy
+
+# Dataset handling (e.g., HotpotQA)
+datasets>=3.0.0
+
+# CLI and server options
+rich>=13.7.0
+fastapi>=0.115.0
+uvicorn>=0.30.0
