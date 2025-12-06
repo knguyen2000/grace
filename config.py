@@ -7,7 +7,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BERTSCORE_THRESHOLD = 0.90 # Central place for this threshold
 
 # --- Retrieval ---
-DEFAULT_HOPS = 2 # This will be superseded by CE policy, but good as a fallback
+DEFAULT_HOPS = 2
 DEFAULT_WIDTH = 15
 
 # --- File Paths ---
@@ -19,8 +19,8 @@ FINAL_RESULTS_FILE = "outputs/ce_final_results.json" # Pass 2 output
 # --- Correlated Equilibrium (CE) Game Settings ---
 # =========================================================================
 
-CE_TEMPERATURE = 0.7         # was previously hardcoded in build_policy.py
-CE_MIN_PROB_FLOOR = 0.02     # exploration floor
+CE_TEMPERATURE = 0.7
+CE_MIN_PROB_FLOOR = 0.02
 
 SIG_THRESHOLDS = {
     'reliability': [0.7, 0.85],
@@ -32,52 +32,19 @@ SIG_THRESHOLDS = {
 
 # 1. PLAYER ACTION COSTS (how "expensive" is the action)
 # These are unit-less, relative costs.
-import torch
 
-# --- Model & Device ---
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-
-# --- Evaluation ---
-BERTSCORE_THRESHOLD = 0.90 # Central place for this threshold
-
-# --- Retrieval ---
-DEFAULT_HOPS = 2 # This will be superseded by CE policy, but good as a fallback
-DEFAULT_WIDTH = 15
-
-# --- File Paths ---
-CE_POLICY_FILE = "policy_ce.json"
-SIMULATION_DATA_FILE = "outputs/ce_simulation_data.json" # Pass 1 output
-FINAL_RESULTS_FILE = "outputs/ce_final_results.json" # Pass 2 output
-
-# =========================================================================
-# --- Correlated Equilibrium (CE) Game Settings ---
-# =========================================================================
-
-CE_TEMPERATURE = 0.7         # was previously hardcoded in build_policy.py
-CE_MIN_PROB_FLOOR = 0.02     # exploration floor
-
-SIG_THRESHOLDS = {
-    'reliability': [0.7, 0.85],
-    'degree': [5, 20],
-    'len': [1.5, 3.0],         # path length buckets
-    'coherence': [0.5, 0.8],   # evidence coherence score
-    'diversity': [1.5, 3.0],   # number of unique entities
-}
-
-# 1. PLAYER ACTION COSTS (how "expensive" is the action)
-# These are unit-less, relative costs.
 COSTS = {
     # Retriever
-    'retrieve_shallow': 1.0,  # 1 hop
-    'retrieve_deep': 3.0,     # 2 hops (more expensive)
+    'retrieve_shallow': 1.0,
+    'retrieve_deep': 3.0,
     
     # Generator
-    'generate': 2.0,          # Cost of running the T5 model
-    'generate_consistency': 5.0, # Cost of running T5 5 times (discounted from 10.0)
-    'refuse_to_generate': 0.0, # No cost
+    'generate': 2.0,
+    'generate_consistency': 5.0,
+    'refuse_to_generate': 0.0,
     
     # Verifier
-    'run_nli_check': 4.0,     # NLI models are very expensive
+    'run_nli_check': 4.0,
     'skip_check': 0.0
 }
 

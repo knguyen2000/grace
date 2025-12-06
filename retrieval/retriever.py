@@ -10,12 +10,12 @@ def retrieve_paths(G, start_entity, action, max_width=15):
     
     # 1. Determine parameters from the action
     if action == 'retrieve_shallow':
-        hops = 1
+        hops = 4
     elif action == 'retrieve_deep':
-        hops = 2
+        hops = 8
     else:
         # Fallback for unknown action
-        hops = 1
+        hops = 2
 
     paths = []
     # Frontier stores tuples: (current_node, current_path_list)
@@ -89,9 +89,9 @@ def select_best_path(G, paths):
         try:
             # Calculate average reliability of nodes in the path
             avg_reliability = sum(G.nodes[n]['reliability'] for n in path) / len(path)
-            # Simple score: reliability minus a penalty for length
-            # This prefers high-reliability, short paths
-            score = avg_reliability - (len(path) * 0.05) 
+            # Simple score: reliability PLUS a bonus for length to encourage multi-hop
+            # This prefers high-reliability, DEEPER paths
+            score = avg_reliability + (len(path) * 0.1) 
             
             if score > best_score:
                 best_score = score

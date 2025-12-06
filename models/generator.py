@@ -56,7 +56,7 @@ Answer with justification:"""
         3. If largest cluster > threshold * k, return that answer.
         4. Else, return "I don't know".
         """
-        prompt = f"Question: {question}\nAnswer:"
+        prompt = f"Question: {question} Answer:"
         inputs = self.tokenizer(prompt, return_tensors="pt", truncation=True).to(self.model.device)
         
         # Sample k times
@@ -90,7 +90,7 @@ Answer with justification:"""
 
     def generate_baseline(self, question, return_confidence=False):
         """Fallback: no evidence"""
-        prompt = f"Question: {question}\nAnswer:"
+        prompt = f"Question: {question} Answer:"
         inputs = self.tokenizer(prompt, return_tensors="pt").to(self.model.device)
         
         if return_confidence:

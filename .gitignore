@@ -59,3 +59,4 @@ cover/
 # Project specific
 outputs/
 *.md
+*.png

@@ -167,7 +167,7 @@ def build_evidence_from_path(G, path):
     node_list = " ; ".join(G.nodes[n].get("label", n) for n in all_nodes if n in G.nodes)
     if not parts:
         return f"NODES: {node_list}" if node_list else ""
-    return f"{' | '.join(parts)}\nNODES: {node_list}"
+    return f"{' | '.join(parts)} NODES: {node_list}"
 
 def compute_evidence_metrics(G, path):
     """
@@ -337,39 +337,65 @@ def get_ce_justification(joint_action, outcome, signal_bin=None, metrics=None, r
         ev = evidence.replace("\n", " ")
         parts.append(f"EVIDENCE_USED: {ev[:200]}{'...' if len(ev) > 200 else ''}")
 
-    return "\n".join(parts)
+    return parts
 
 def get_abstain_description(joint_action, v_label, evidence):
     """
-    Returns a descriptive string explaining why the system abstained.
-    Replaces _infer_abstain_reason.
+    Returns a clear, user-friendly explanation for why the system abstained,
+    written in natural language with no technical terminology.
     """
-    reason_string = "Abstained: Reason unspecified."
 
+    # Case: Explicit refusal to generate
     if isinstance(joint_action, (list, tuple)) and len(joint_action) == 3:
         if joint_action[1] == 'refuse_to_generate':
-            reason_string = "Abstained: Policy chose not to generate based on signals."
-            return reason_string
+            return (
+                "I’m not able to give an answer because the signals I detected "
+                "suggest that responding could lead to an unreliable or unsafe answer."
+            )
 
-    # If policy *didn't* refuse, check other pipeline stages
+    # Other abstention reasons
     if v_label == 'contradicts':
-        reason_string = "Abstained: Verifier found contradiction between evidence and potential answer."
-    elif not evidence:
-         # Check if lack of evidence was the primary issue *after* policy allowed generation attempt
-        reason_string = "Abstained: No evidence path found for the question."
-    elif v_label == 'error':
-        reason_string = "Abstained: Error during verification step."
-    elif v_label == 'no_answer_to_verify':
-         # This implies generation failed or returned empty
-        reason_string = "Abstained: Generation failed or produced no answer text."
-    elif v_label == 'no_evidence_to_verify':
-        # This implies generation happened but evidence was missing *at verification time*
-        reason_string = "Abstained: Answer generated, but no evidence was found to verify against."
-    elif v_label == 'skipped':
-        # If verification was skipped but we still abstained, it must be the generator
-        reason_string = "Abstained: Model returned 'I don't know' or generation failed."
+        return (
+            "I chose not to answer because the information I found disagrees with "
+            "the possible answer. Since the evidence does not support a clear conclusion, "
+            "I prefer not to guess."
+        )
 
-    return reason_string
+    elif not evidence:
+        return (
+            "I’m not able to answer because I could not find any information related "
+            "to the question. Without supporting evidence, I prefer not to guess."
+        )
+
+    elif v_label == 'error':
+        return (
+            "I could not answer due to an unexpected issue while checking the information. "
+            "Because I couldn’t confirm the reliability of the evidence, I preferred to abstain."
+        )
+
+    elif v_label == 'no_answer_to_verify':
+        return (
+            "I’m not able to answer because I couldn't form a clear response from the information available. "
+            "Since there was no meaningful answer to evaluate, I chose to abstain."
+        )
+
+    elif v_label == 'no_evidence_to_verify':
+        return (
+            "I found a possible answer, but I could not locate any information to support it. "
+            "Without evidence to verify the answer, I preferred to abstain."
+        )
+
+    elif v_label == 'skipped':
+        return (
+            "I’m not certain enough to answer the question. The information I found did not "
+            "give me enough confidence, so I chose not to guess."
+        )
+
+    # Default fallback
+    return (
+        "I chose not to answer because I couldn’t ensure the information was reliable enough. "
+        "To avoid giving a potentially incorrect answer, I preferred to abstain."
+    )
 
 # ----------------------------
 # Main evaluation
@@ -436,7 +462,7 @@ def main(args):
     print(f"  coherence  : {coh_thresh}")
     print(f"  diversity  : {div_thresh}")
 
-    # --- Phase 1 Simulation ---
+    # Phase 1 Simulation
     if os.path.exists(SIMULATION_DATA_FILE) and not args.force_calib:
         print(f"Skipping simulation: Found existing data at {SIMULATION_DATA_FILE}.")
     else:
@@ -444,7 +470,6 @@ def main(args):
         all_sims_to_score = []
         all_sim_preds = []
         
-        # --- FIXED: Run baseline once for calibration set ---
         all_baseline_preds_for_calib = []
         print("Running baseline model for calibration set...")
         for ex in tqdm(calibration_questions, desc="Running baseline"):
@@ -454,7 +479,6 @@ def main(args):
             all_baseline_preds_for_calib,
             [ex["gold_answer"] for ex in calibration_questions]
         )
-        # --- END FIX ---
 
         for i, ex in enumerate(tqdm(calibration_questions, desc="Simulating Actions")):
             q, gold = ex["question"], ex["gold_answer"]
