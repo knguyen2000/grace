@@ -1,0 +1,98 @@
+{
+  "policy": {
+    "rel:mid_deg:high_len:mid_coh:mid_div:mid": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.020000000000000004,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.020000000000001992,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.020000000015843986,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.019999999999999997,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.02000000000000011,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.02000000000090996,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.02000000000001252,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.8599999999832313
+    },
+    "rel:mid_deg:mid_len:mid_coh:mid_div:mid": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.0200000000000001,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.020000000000030327,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.02,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.020000000000000007,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.020000000000001742,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.02,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.020000000061764847,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.859999999938203
+    },
+    "rel:high_deg:low_len:low_coh:mid_div:low": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02014228920438071,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.06313747342247696,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.7710970938217242,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02000817204170109,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.022477498087240082,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06313747342247696,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.02,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02
+    },
+    "rel:mid_deg:low_len:mid_coh:mid_div:low": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02014218293368409,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.06310525559280486,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.7705361263770398,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02000816593829663,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.022475647732894892,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06310525559280486,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.020593291545052992,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02003407428742172
+    },
+    "rel:mid_deg:low_len:low_coh:mid_div:low": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02014218293368409,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.06310525559280486,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.7705361263770398,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02000816593829663,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.022475647732894892,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06310525559280486,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.020593291545052992,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02003407428742172
+    },
+    "rel:mid_deg:mid_len:mid_coh:mid_div:low": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.020000000000000014,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.8137494052247695,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.02,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.0655871073841719,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.02062745122381241,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02003603616724622
+    },
+    "rel:mid_deg:low_len:mid_coh:mid_div:mid": {
+      "('retrieve_shallow', 'generate', 'run_nli_check')": 0.02014218293368409,
+      "('retrieve_shallow', 'generate', 'skip_check')": 0.06310525559280486,
+      "('retrieve_shallow', 'refuse_to_generate', 'skip_check')": 0.7705361263770398,
+      "('retrieve_deep', 'generate', 'run_nli_check')": 0.02000816593829663,
+      "('retrieve_deep', 'generate', 'skip_check')": 0.022475647732894892,
+      "('retrieve_deep', 'refuse_to_generate', 'skip_check')": 0.06310525559280486,
+      "('retrieve_shallow', 'generate_consistency', 'skip_check')": 0.020593291545052992,
+      "('retrieve_deep', 'generate_consistency', 'skip_check')": 0.02003407428742172
+    }
+  },
+  "signal_thresholds": {
+    "reliability": [
+      -0.049874223088230044,
+      0.05012577691176996
+    ],
+    "degree": [
+      2.0,
+      2.653999999999998
+    ],
+    "len": [
+      3.95,
+      4.05
+    ],
+    "coherence": [
+      -0.05,
+      0.05
+    ],
+    "diversity": [
+      4.95,
+      5.05
+    ]
+  },
+  "temperature": 0.7,
+  "min_prob_floor": 0.02
+}

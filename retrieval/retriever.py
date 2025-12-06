@@ -21,6 +21,9 @@ def retrieve_paths(G, start_entity, action, max_width=15):
     # Frontier stores tuples: (current_node, current_path_list)
     frontier = [(start_entity, [start_entity])]
 
+    # Generic nodes to skip during expansion to improve path semantic quality
+    SKIPPED_NODES = {'NOUN_PHRASE', 'DATE', 'PERSON', 'ORG', 'LOC', 'CARDINAL', 'QUANTITY'}
+
     for current_hop in range(hops):
         next_frontier = []
         processed_in_level = set() # Avoid cycles within the same hop level expansion
@@ -35,7 +38,8 @@ def retrieve_paths(G, start_entity, action, max_width=15):
                     succ = list(G.successors(node))
                     pred = list(G.predecessors(node))
                     # Filter out nodes already in the current path to avoid cycles
-                    neighbors = [n for n in (succ + pred) if n not in path]
+                    # AND filter out generic nodes that act as meaningless super-hubs
+                    neighbors = [n for n in (succ + pred) if n not in path and n not in SKIPPED_NODES]
                 except Exception:
                     neighbors = []
             
